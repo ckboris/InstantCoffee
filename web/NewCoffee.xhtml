@@ -14,9 +14,16 @@
             <f:viewAction action="#{newCoffeeBean.init()}"/>
         </f:metadata>
         <h:form>
-            <h:outputLabel value="Coffee Name"/>
+            <h:outputLabel value="Name"/>
             <h:inputText id="itemName" class="form-control" value="#{newCoffeeBean.coffee.variety}"></h:inputText>
-
+            
+             <h:outputLabel value="Price"/>
+             <h:inputText id="itemPrice" class="form-control" value="#{newCoffeeBean.coffee.price}"></h:inputText>
+             
+            <h:outputLabel value="Brand"/>
+            <h:selectOneMenu value="#{newCoffeeBean.brand}">
+                <f:selectItems value="#{newCoffeeBean.brandList}"/>
+            </h:selectOneMenu>
             <h:commandButton class="btn" value="Save" action="#{newCoffeeBean.submit()}"/>
         </h:form>
 

@@ -22,12 +22,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="COFFEE")
-/*
 @NamedQueries({
     @NamedQuery(name="Coffee.FindAll", query="SELECT c FROM Coffee c")
     // Whatever other @NamedQueries go in here, comma-separated.
 })
-*/
 public class Coffee implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

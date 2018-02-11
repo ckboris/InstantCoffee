@@ -29,7 +29,7 @@ public class CoffeeService {
         em.persist(coffee);
     } 
     public List<Coffee> findAll() {
-        Query q = em.createNamedQuery("Coffee.findAll");
+        Query q = em.createNamedQuery("Coffee.FindAll");
         List<Coffee> coffees = (List<Coffee>) q.getResultList();
         return coffees;
     }
