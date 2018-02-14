@@ -27,3 +27,19 @@ a:link:hover, a:visited:hover  {
   font-weight : bold;
   text-decoration : underline;
 }
+
+.header {
+    background-color: purple;
+    height:100px;
+}
+
+.fixed-bottom {
+    background-color: lightgray;
+}
+
+footer {
+    position: fixed;
+    height: 20px;
+    bottom: 0;
+    width: 100%;
+}

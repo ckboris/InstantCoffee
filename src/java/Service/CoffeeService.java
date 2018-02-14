@@ -8,7 +8,6 @@ package Service;
 import Pojo.Coffee;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.mail.FetchProfile.Item;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -22,16 +21,49 @@ public class CoffeeService {
     @PersistenceContext(unitName="InstantCoffeePU")
     private EntityManager em;
     
+    /**
+     * Load a Coffee object given an ID.
+     * 
+     * @param id Identifier for the Coffee object to load.
+     * @return Coffee object associated with the ID.
+     */
     public Coffee load(Long id) {
         return em.find(Coffee.class, id);
     }
+    
+    /**
+     * Add a new Coffee object to the database.
+     * 
+     * @param coffee The new Coffee object to be persisted.
+     */
     public void create(Coffee coffee) {
         em.persist(coffee);
     } 
+    
+    /**
+     * Get all Coffee objects in the database.
+     * 
+     * @return A List containing all Coffee objects in the database.
+     */
     public List<Coffee> findAll() {
         Query q = em.createNamedQuery("Coffee.FindAll");
         List<Coffee> coffees = (List<Coffee>) q.getResultList();
         return coffees;
     }
-    // The rest of the queries
+    
+    /**
+     * Update a Coffee object in the database.
+     * 
+     * @param coffee The Coffee object being updated.
+     */
+    public void update(Coffee coffee) {
+        em.merge(coffee);
+    }
+    
+    public List<Coffee> searchByAll(String str) {
+        Query q = em.createNamedQuery("Coffee.findByAll");
+        q.setParameter("str",("%"+str+"%").toLowerCase());
+        List<Coffee> coffees = (List<Coffee>) q.getResultList();
+        return coffees;
+    }
 }

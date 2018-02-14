@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Pojo;
 
 import java.io.Serializable;
@@ -23,8 +18,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name="COFFEE")
 @NamedQueries({
-    @NamedQuery(name="Coffee.FindAll", query="SELECT c FROM Coffee c")
-    // Whatever other @NamedQueries go in here, comma-separated.
+    @NamedQuery(name="Coffee.FindAll", query="SELECT c FROM Coffee c"),
+    @NamedQuery(name = "Coffee.findByAll", query = "SELECT c FROM "
+           + "Coffee c WHERE LOWER(c.variety) LIKE :searchString"
+        // + " OR LOWER(c.brand) LIKE :searchString"
+        )
 })
 public class Coffee implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -42,9 +40,17 @@ public class Coffee implements Serializable {
     @ManyToOne
     private Brand brand;
 
+    /**
+     * No-args constructor.
+     */
     public Coffee() {
     }
 
+    /**
+     * Get the ID of a Coffee object.
+     * 
+     * @return The id field of a Coffee object, as a long.
+     */
     public long getId() {
         return id;
     }
@@ -53,6 +59,11 @@ public class Coffee implements Serializable {
         this.id = id;
     }
 
+    /**
+     * Get the variety (name) of a Coffee object.
+     * 
+     * @return The variety field of a Coffee object, as a String.
+     */
     public String getVariety() {
         return variety;
     }
@@ -61,6 +72,11 @@ public class Coffee implements Serializable {
         this.variety = variety;
     }
 
+    /**
+     * Get the price of a Coffee object.
+     * 
+     * @return The price field of a Coffee object, as a long.
+     */
     public long getPrice() {
         return price;
     }
@@ -69,6 +85,11 @@ public class Coffee implements Serializable {
         this.price = price;
     }
 
+    /**
+     * Get the Brand of a Coffee object.
+     * 
+     * @return The Brand object associated with a Coffee object.
+     */
     public Brand getBrand() {
         return brand;
     }
@@ -76,6 +97,4 @@ public class Coffee implements Serializable {
     public void setBrand(Brand brand) {
         this.brand = brand;
     }
-    
-    
 }

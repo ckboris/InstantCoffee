@@ -81,5 +81,25 @@ public class Brand implements Serializable {
     public void setVarieties(ArrayList<Coffee> varieties) {
         this.varieties = varieties;
     }
+    
+    
+    @Override
+    public boolean equals(Object other) {
+        return (other instanceof Brand) && (id != 0L)
+            ? id ==(((Brand) other).id)
+            : (other == this);
+    }
 
+    @Override
+    public int hashCode() {
+        return (id != 0L)
+            ? (this.getClass().hashCode())
+            : super.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Brand[%d, %s, %s, %s]", id, name, supplier, varieties.toString());
+    }
+    
 }

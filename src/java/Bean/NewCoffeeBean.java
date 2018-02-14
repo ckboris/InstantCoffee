@@ -22,15 +22,16 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class NewCoffeeBean implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     @EJB
     private CoffeeService coffeeService = new CoffeeService();
     private Coffee coffee;
     
-    private Brand brand;
-    private List<Brand> brandList;
-    
     @EJB
     private BrandService brandService = new BrandService();
+    private Brand brand;
+    private List<Brand> brandList;
     
     public void init() {
         coffee = new Coffee();
