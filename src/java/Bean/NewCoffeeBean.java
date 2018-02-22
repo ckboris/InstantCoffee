@@ -33,15 +33,31 @@ public class NewCoffeeBean implements Serializable {
     private Brand brand;
     private List<Brand> brandList;
     
+    /**
+     * Initialize values in NewCoffee view.
+     */
     public void init() {
         coffee = new Coffee();
         brandList = brandService.findAllBrands();
     }
-    public void submit() {
-        coffeeService.create(coffee);
-        //Redirect string goes here 
+    
+    /**
+     * Submit a new Coffee object to the database.
+     * 
+     * @return Redirect string if Coffee object persists correctly, otherwise
+     * throw error message and return null.
+     */
+    public String submit() {
+        try {
+            coffeeService.create(coffee);
+            return "/ListCoffee.xhtml?faces-redirect=true";
+        } catch (Exception ex) {
+            System.out.print("Exception " + ex + " occured. Coffee not submitted.");
+            return null;
+        }
     }
 
+    /* Getters and Setters for fields */
     public CoffeeService getCoffeeService() {
         return coffeeService;
     }

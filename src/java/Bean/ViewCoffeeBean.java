@@ -24,28 +24,35 @@ public class ViewCoffeeBean implements Serializable {
     private Coffee coffee;
     @EJB
     private CoffeeService coffeeService;
-    // Load an Coffee using its id
+   /**
+    * Load a Coffee object given an ID, or throw an error if that Coffee object 
+    * cannot be loaded.
+    */
     public void init() {
         try {
             coffee = coffeeService.load(id);
         } catch (Exception e) {
-            System.out.println("Could not load object"); 
+            System.out.println("Could not load Coffee object for given ID"); 
             // Just an example, in reality we would use a logger
         }
     }
-    // Submit a modified Coffee (by merging)
+    /**
+     * Submit a modified Coffee object.
+     * 
+     * @return Redirect String if merge is successful, otherwise throw an error.
+     */
     public String submit() {
         try {
             coffeeService.update(coffee);
-            return "/index.xhtml?faces-redirect=true";
+            return "/ListCoffee.xhtml?faces-redirect=true";
         } catch (Exception e) {
-            System.out.println("Could not save object"); 
-            return "";
+            System.out.println("Could not update Coffee object"); 
+            return null;
             // Just an example, in reality we would use a logger
         }
     }
-    //Getter and setters for coffee and id fields, but not coffeeService    
-
+    
+    /* Getter and setters for coffee and id fields, but not coffeeService */  
     public long getId() {
         return id;
     }

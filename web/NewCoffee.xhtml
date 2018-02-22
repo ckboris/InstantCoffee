@@ -14,8 +14,12 @@
             <f:viewAction action="#{newCoffeeBean.init()}"/>
         </f:metadata>
         <h:form>
-            <h:outputLabel value="Name"/>
-            <h:inputText id="itemName" class="form-control" value="#{newCoffeeBean.coffee.variety}"></h:inputText>
+            <div class="control-group error">
+                <h:outputLabel value="Name"/>
+                <h:inputText id="itemName" class="form-control" value="#{newCoffeeBean.coffee.variety}"></h:inputText>
+                
+                <span class="error text-danger"> <h:message for="itemName" errorClass="error-message"/></span>
+            </div>
             
              <h:outputLabel value="Price"/>
              <h:inputText id="itemPrice" class="form-control" value="#{newCoffeeBean.coffee.price}"></h:inputText>

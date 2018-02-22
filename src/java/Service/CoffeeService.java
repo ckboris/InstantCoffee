@@ -60,9 +60,10 @@ public class CoffeeService {
         em.merge(coffee);
     }
     
-    public List<Coffee> searchByAll(String str) {
+    public List<Coffee> searchByAll(String searchString) {
         Query q = em.createNamedQuery("Coffee.findByAll");
-        q.setParameter("str",("%"+str+"%").toLowerCase());
+        //Note: This MUST MATCH THE NAME GIVEN IN THE VIEW'S VIEWPARAM!!!
+        q.setParameter("searchString",("%"+searchString+"%").toLowerCase());
         List<Coffee> coffees = (List<Coffee>) q.getResultList();
         return coffees;
     }

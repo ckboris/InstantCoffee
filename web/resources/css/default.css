@@ -43,3 +43,14 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.col-xs-6 {
+    border: 2px solid gray;
+}
+
+.btnlink {
+    border: 1px solid black;
+    background-color: lightgray;
+    padding: 2px;
+    margin: 2px;
+}

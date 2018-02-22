@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -31,6 +34,10 @@ public class Coffee implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     
+    @Pattern(regexp ="^[A-Za-z0-9][a-zA-Z'\\[\\]\\-\\s\\.\\,()]*([a-zA-Z0-9\\.])", 
+             message="Illegal characters in name.")
+    @Size(min= 0, max=128, message="Name cannot be over 128 characters.")
+    @NotNull(message="Name can't be blank.")
     @Column(name="VARIETY")
     private String variety; 
     

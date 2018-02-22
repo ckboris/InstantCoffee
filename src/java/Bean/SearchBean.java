@@ -13,12 +13,14 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 
 /**
  *
  * @author Candace
  */
 @ManagedBean
+@RequestScoped
 public class SearchBean {
     //Declare (but don't instantiate) CoffeeService with @EJB annotation and serialVersionUID
     private static final long serialVersionUID = 1L;
@@ -29,13 +31,18 @@ public class SearchBean {
     private List<Coffee> results = new ArrayList<>();
 
     //Empty, no-args constructor goes here
-
+    public SearchBean() {
+         System.out.println("In SearchBean!");
+    }
+    
     @PostConstruct
     public void init() {
+         System.out.println("In init!");
 
     }
 
     public void displaySearch() {
+        System.out.println("In DisplaySearch!");
         results.clear();
         for (String str : strHandler(searchQuery)) {
             searchCoffees(str);
@@ -43,6 +50,7 @@ public class SearchBean {
     }
 
     public void searchCoffees(String str) {
+        System.out.println("In SearchCoffees!");
         List<Coffee> coffees = coffeeService.searchByAll(str);
         try {
             for (Coffee i : coffees) {
@@ -54,6 +62,7 @@ public class SearchBean {
     }
 
     public List<String> strHandler(String str) {
+            System.out.println("In StringHandler!");
             List<String> searchTerms = new ArrayList<>();
             try {
                 if (str != null && !str.isEmpty()) {

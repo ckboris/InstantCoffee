@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./WEB-INF/templates/templatemain.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <h1>App</h1>
+        <p class="lead">Start at the beginning or jump to a section.</p>
+        
+        <p class="lead">Sections</p>
+        <ul>
+            <li><h:link value="View Datatable" outcome="ListCoffee"/></li>
+            <li><h:link value="Persist to Database" outcome="NewCoffee"/></li>
+            <li><h:link value="View and Edit a Specific Object" outcome="ViewCoffee"/></li>
+            <li><h:link value="Delete an Object" outcome=""/></li>
+            <li><h:link value="Logging In and Out" outcome="Login"/></li>
+            <li><h:link value="Searching" outcome=""/></li>
+        </ul> 
+    </ui:define>
+</ui:composition>

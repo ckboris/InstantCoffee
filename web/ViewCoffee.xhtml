@@ -4,18 +4,38 @@
                 template="./WEB-INF/templates/template.xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html">
-
-    <ui:define name="top">
-        top
-    </ui:define>
+                <f:metadata>
+                    <f:viewParam name="id" value="#{viewCoffeeBean.id}"/>
+                    <f:viewAction action="#{viewCoffeeBean.init()}"/>
+                </f:metadata>
 
     <ui:define name="content">
-        <f:metadata>
-            <f:viewParam name="id" value="#{viewCoffeeBean.id}"/>
-            <f:viewAction action="#{viewCoffeeBean.init()}"/>
-        </f:metadata>
-        content
-        <h:outputText value="#{viewCoffeeBean.coffee.variety}"/>
+        <h1>View Coffee</h1>
+        <h:outputLabel value="Variety: "/>
+        <h:outputText value=" #{viewCoffeeBean.coffee.variety}"/>
     </ui:define>
 
+    <ui:define name="code">
+        <h:link class="btnlink" id="bean-btn" value="Bean"></h:link>
+        <h:link class="btnlink" id="service-btn" value="Service"></h:link>
+        <h:link class="btnlink" id="xhtml-btn" value="XHTML"></h:link>
+        
+        <div style="display: none"  class="bean-div">
+            <pre><code class="java">
+                Bean code.
+            </code></pre>
+        </div>
+        
+        <div style="display: none" class="service-div">
+            <pre><code>
+                Service Code.
+            </code></pre>
+        </div>
+        
+        <div style="display: none" class="xhtml-div">
+            <pre><code>
+                XHTML Code.
+            </code></pre>
+        </div>
+    </ui:define>
 </ui:composition>
