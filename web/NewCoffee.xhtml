@@ -2,17 +2,14 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./WEB-INF/templates/template.xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-    <ui:define name="top">
-        top
-    </ui:define>
+    <f:metadata>
+        <f:viewAction action="#{newCoffeeBean.init()}"/>
+    </f:metadata>
 
     <ui:define name="content">
-        <f:metadata>
-            <f:viewAction action="#{newCoffeeBean.init()}"/>
-        </f:metadata>
+        <h1>New Coffee</h1>
         <h:form>
             <div class="control-group error">
                 <h:outputLabel value="Name"/>
@@ -21,15 +18,33 @@
                 <span class="error text-danger"> <h:message for="itemName" errorClass="error-message"/></span>
             </div>
             
-             <h:outputLabel value="Price"/>
-             <h:inputText id="itemPrice" class="form-control" value="#{newCoffeeBean.coffee.price}"></h:inputText>
-             
-             <!--
-            <h:outputLabel value="Brand"/>
-            <h:selectOneMenu value="#{newCoffeeBean.brand}" converter="omnifaces.SelectItemsConverter">
-                <f:selectItems value="#{newCoffeeBean.brandList}"/>
-            </h:selectOneMenu>
-             -->
+             <div class="control-group error">
+                <h:outputLabel value="Price"/>
+                <h:inputText id="itemPrice" class="form-control" value="#{newCoffeeBean.coffee.price}" converterMessage="Must be a number"></h:inputText>
+                <span class="error text-danger"> <h:message for="itemPrice" errorClass="error-message"/></span>
+             </div>
+            
+            <div class="form-group">
+                <h:outputLabel class="control-label col-sm-3" value="Roast"/>
+                <div class="col-sm-5">
+                    <h:selectOneMenu class="form-control"   
+                            value="#{newCoffeeBean.coffee.roast}">
+                        <!-- Note: newItemBean.genders calls the getGenders() method above-->
+                        <f:selectItems value="#{newCoffeeBean.roasts}" var="roast"
+                                       itemValue="#{roast}" itemLabel="#{roast.label}"/>
+                    </h:selectOneMenu>
+                </div>
+            </div> 
+
+            <div class="control-group error">
+                <h:outputLabel value="Brand"/>
+                <!--Formerly newCoffeeBean.coffee.brandId -->
+                <h:selectOneMenu value="#{newCoffeeBean.coffee.brand}"
+                                 converter="omnifaces.SelectItemsConverter">
+                    <f:selectItems value="#{newCoffeeBean.brandList}"/>
+                </h:selectOneMenu>
+            </div>
+            
             <h:commandButton class="btn" value="Save" action="#{newCoffeeBean.submit()}"/>
         </h:form>
 

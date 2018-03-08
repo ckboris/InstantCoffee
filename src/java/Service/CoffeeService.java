@@ -5,6 +5,7 @@
  */
 package Service;
 
+import Pojo.Brand;
 import Pojo.Coffee;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -67,4 +68,11 @@ public class CoffeeService {
         List<Coffee> coffees = (List<Coffee>) q.getResultList();
         return coffees;
     }
+    
+    //TESTING
+    public void persistCoffee(Long brandId, Coffee coffee) {
+        Brand brand = em.find(Brand.class, brandId);
+        brand.addCoffee(coffee);
+    }
+    
 }

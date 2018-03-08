@@ -38,5 +38,12 @@ public class BrandService {
         List<Brand> brands = (List<Brand>) q.getResultList();
         return brands;
     }
+    
+    public List<Long> FindAllIds() {
+        Query q = em.createNamedQuery("Brand.FindAllIds");
+        List<Long> brandIds = (List<Long>) q.getResultList();
+        return brandIds;
+    }
+    
     // The rest of the queries
 }

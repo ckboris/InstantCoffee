@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Bean;
 
 import Pojo.Coffee;
 import Service.CoffeeService;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ViewScoped;
 
 /**
@@ -20,6 +18,7 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class ViewCoffeeBean implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(ViewCoffeeBean.class.getName());
     private long id;
     private Coffee coffee;
     @EJB
@@ -33,7 +32,7 @@ public class ViewCoffeeBean implements Serializable {
             coffee = coffeeService.load(id);
         } catch (Exception e) {
             System.out.println("Could not load Coffee object for given ID"); 
-            // Just an example, in reality we would use a logger
+            LOG.log(Level.SEVERE, "Error loading the Coffee object", e);
         }
     }
     /**
@@ -45,10 +44,10 @@ public class ViewCoffeeBean implements Serializable {
         try {
             coffeeService.update(coffee);
             return "/ListCoffee.xhtml?faces-redirect=true";
-        } catch (Exception e) {
+        } catch (EJBException e) {
             System.out.println("Could not update Coffee object"); 
+            LOG.log(Level.SEVERE, "Error occured while attempting to update Coffee object", e);
             return null;
-            // Just an example, in reality we would use a logger
         }
     }
     

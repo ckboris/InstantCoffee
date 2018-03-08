@@ -3,9 +3,12 @@ package Pojo;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -44,9 +47,16 @@ public class Coffee implements Serializable {
     @Column(name="PRICE")
     private long price; 
 
+    @NotNull
     @ManyToOne
     private Brand brand;
 
+    @Column(name="ROAST")
+    @Enumerated(EnumType.STRING)
+    private Roast roast;
+
+    //TESTING
+    //private Long brandId;
     /**
      * No-args constructor.
      */
@@ -104,4 +114,22 @@ public class Coffee implements Serializable {
     public void setBrand(Brand brand) {
         this.brand = brand;
     }
+
+    public Roast getRoast() {
+        return roast;
+    }
+
+    public void setRoast(Roast roast) {
+        this.roast = roast;
+    }
+
+    /*
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
+    }
+    */
 }

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/templates/templatemain.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml">
+
+    <ui:define name="content">
+        <div class="jumbotron">
+            <h1 class="display-3">Secret Admin Page!</h1>
+            <p class="lead">You're logged in successfully! Now what?</p>
+
+            <h:form id="loginForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <h:commandButton class="btn btn-primary btn-lg"
+                            action="#{loginBean.logout()}" 
+                            value="Log me out!"/>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

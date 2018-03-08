@@ -70,4 +70,33 @@
       <extension>eot</extension>
       <mime-type>application/vnd.ms-fontobject</mime-type>
     </mime-mapping>
+    
+    <error-page>
+        <error-code>404</error-code> <!--Where this is your error code-->
+        <location>/WEB-INF/Error.xhtml</location> <!-- The locale of your error page-->
+    </error-page>
+    <error-page>
+        <error-code>401</error-code> <!--Where this is your error code-->
+        <location>/WEB-INF/Error.xhtml</location> <!-- The locale of your error page-->
+    </error-page>
+    <error-page>
+        <error-code>403</error-code> <!--Where this is your error code-->
+        <location>/WEB-INF/Error.xhtml</location> <!-- The locale of your error page-->
+    </error-page>
+    <error-page>
+        <error-code>408</error-code> <!--Where this is your error code-->
+        <location>/WEB-INF/Error.xhtml</location> <!-- The locale of your error page-->
+    </error-page>
+    <error-page>
+        <error-code>500</error-code> <!--Where this is your error code-->
+        <location>/WEB-INF/Error.xhtml</location> <!-- The locale of your error page-->
+    </error-page>
+    <error-page>
+        <error-code>501</error-code> <!--Where this is your error code-->
+        <location>/WEB-INF/Error.xhtml</location> <!-- The locale of your error page-->
+    </error-page>
+    <error-page>
+        <error-code>505</error-code> <!--Where this is your error code-->
+        <location>/WEB-INF/Error.xhtml</location> <!-- The locale of your error page-->
+    </error-page>
 </web-app>

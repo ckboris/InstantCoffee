@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Pojo;
 
 import java.io.Serializable;
@@ -29,7 +24,7 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name="Brand.FindAllNames", query="SELECT b.name FROM Brand b"),
     @NamedQuery(name="Brand.FindAllBrands", query="SELECT b FROM Brand b"),
-    // Whatever other @NamedQueries go in here, comma-separated.
+    @NamedQuery(name="Brand.FindAllIds", query="SELECT b.id FROM Brand b")
 })
 public class Brand implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -50,6 +45,20 @@ public class Brand implements Serializable {
     public Brand() {
     }
 
+    /*
+    public Brand(long id, String name, String supplier, List<Coffee> varieties) {
+        this.id = id;
+        this.name = name;
+        this.supplier = supplier;
+        this.varieties = varieties;
+    }
+    */
+    
+    public void addCoffee(Coffee coffee) {
+        coffee.setBrand(this);
+        varieties.add(coffee);
+    }
+    
     public long getId() {
         return id;
     }
@@ -99,7 +108,9 @@ public class Brand implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Brand[%d, %s, %s, %s]", id, name, supplier, varieties.toString());
+        //return String.format("Brand[%d, %s, %s, %s]", id, name, supplier, varieties.toString());
+        //return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
+        return "" + id + "";
     }
     
 }

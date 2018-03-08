@@ -1,29 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Bean;
 
 import Pojo.Brand;
 import Pojo.Coffee;
+import Pojo.Roast;
 import Service.BrandService;
 import Service.CoffeeService;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.ejb.EJB;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.ApplicationScoped;
 
 /**
  *
  * @author Candace
  */
 @ManagedBean
-@ViewScoped
+@ApplicationScoped
 public class NewCoffeeBean implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+    private static final Logger LOG = Logger.getLogger(ViewCoffeeBean.class.getName());
+
     @EJB
     private CoffeeService coffeeService = new CoffeeService();
     private Coffee coffee;
@@ -31,14 +31,39 @@ public class NewCoffeeBean implements Serializable {
     @EJB
     private BrandService brandService = new BrandService();
     private Brand brand;
+    private List<Long> brandIdList;
     private List<Brand> brandList;
+    
+    private Roast roast;
+    
+    //TESTING
+    //private Long brandId;
     
     /**
      * Initialize values in NewCoffee view.
      */
+    @PostConstruct
     public void init() {
-        coffee = new Coffee();
-        brandList = brandService.findAllBrands();
+        try {
+            //brand = new Brand();
+            brandList = brandService.findAllBrands();
+            //brandId = 1L;
+            coffee = new Coffee();
+           //brandIdList = brandService.FindAllIds();
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, "Error initializing the Coffee object or Brand ID list", e);
+        }
+    }
+
+    //TESTING
+    /*
+    public NewCoffeeBean(Coffee coffee, Brand brand) {
+        this.coffee = coffee;
+        this.brand = brand;
+    }
+    */
+    
+    public NewCoffeeBean() {
     }
     
     /**
@@ -49,7 +74,16 @@ public class NewCoffeeBean implements Serializable {
      */
     public String submit() {
         try {
+            System.out.println("Details: " + 
+                    coffee.getVariety() + ", " + 
+                    coffee.getId() + ", " +
+                    coffee.getBrand().getId()
+                    );
+            coffee.setBrand(brandService.load(coffee.getBrand().getId()));
             coffeeService.create(coffee);
+            
+            //TESTING
+            //coffeeService.persistCoffee(brandId, coffee);
             return "/ListCoffee.xhtml?faces-redirect=true";
         } catch (Exception ex) {
             System.out.print("Exception " + ex + " occured. Coffee not submitted.");
@@ -57,6 +91,15 @@ public class NewCoffeeBean implements Serializable {
         }
     }
 
+    /**
+     * Get a list of the available Roasts.
+     * 
+     * @return An array of Roast objects.
+     */
+    public Roast[] getRoasts() {
+        return Roast.values();
+    }
+    
     /* Getters and Setters for fields */
     public CoffeeService getCoffeeService() {
         return coffeeService;
@@ -90,6 +133,33 @@ public class NewCoffeeBean implements Serializable {
         this.brandService = brandService;
     }
 
+    public List<Long> getBrandIdList() {
+        return brandIdList;
+    }
+
+    public void setBrandIdList(List<Long> brandList) {
+        this.brandIdList = brandList;
+    }
+
+    public Roast getRoast() {
+        return roast;
+    }
+
+    public void setRoast(Roast roast) {
+        this.roast = roast;
+    }
+
+    //TESTING
+    /*
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
+    }
+    */
+
     public List<Brand> getBrandList() {
         return brandList;
     }
@@ -97,4 +167,6 @@ public class NewCoffeeBean implements Serializable {
     public void setBrandList(List<Brand> brandList) {
         this.brandList = brandList;
     }
+    
+    
 }
