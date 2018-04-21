@@ -9,33 +9,41 @@
                     <f:viewAction action="#{viewCoffeeBean.init()}"/>
                 </f:metadata>
 
+    <ui:define name="back">
+        <h:link value="Back" outcome="NewCoffee"/>
+    </ui:define>
+        <ui:define name="next">
+        <h:link value="Next" outcome="EditCoffee"/>
+    </ui:define>
     <ui:define name="content">
         <h1>View Coffee</h1>
-        <h:outputLabel value="Variety: "/>
-        <h:outputText value=" #{viewCoffeeBean.coffee.variety}"/>
+        <div>
+            <h:outputLabel value="Variety: "/>
+            <h:outputText value=" #{viewCoffeeBean.coffee.variety}"/>
+        </div>
+        <div>
+            <h:outputLabel value="Price: "/>
+            <h:outputText value=" $#{viewCoffeeBean.coffee.price}"/>
+        </div>
+        <div>
+            <h:outputLabel value="Roast: "/>
+            <h:outputText value=" #{viewCoffeeBean.coffee.roast}"/>
+        </div>
+        <div>
+            <h:outputLabel value="Brand "/>
+            <h:outputText value=" #{viewCoffeeBean.coffee.brand.name}"/>
+        </div>
     </ui:define>
 
-    <ui:define name="code">
-        <h:link class="btnlink" id="bean-btn" value="Bean"></h:link>
-        <h:link class="btnlink" id="service-btn" value="Service"></h:link>
-        <h:link class="btnlink" id="xhtml-btn" value="XHTML"></h:link>
-        
-        <div style="display: none"  class="bean-div">
-            <pre><code class="java">
-                Bean code.
-            </code></pre>
-        </div>
-        
-        <div style="display: none" class="service-div">
-            <pre><code>
-                Service Code.
-            </code></pre>
-        </div>
-        
-        <div style="display: none" class="xhtml-div">
-            <pre><code>
-                XHTML Code.
-            </code></pre>
-        </div>
+    <ui:define name="xhtml">
+        XHTML
+    </ui:define>
+    
+    <ui:define name="service">
+        Service
+    </ui:define>
+    
+    <ui:define name="bean">
+        Bean
     </ui:define>
 </ui:composition>

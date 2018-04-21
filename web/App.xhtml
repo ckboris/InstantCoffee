@@ -7,16 +7,15 @@
 
     <ui:define name="content">
         <h1>App</h1>
-        <p class="lead">Start at the beginning or jump to a section.</p>
+        <p class="lead">Start at <h:link value="the beginning" outcome="ListCoffee"/> or jump to a section:</p>
         
-        <p class="lead">Sections</p>
         <ul>
             <li><h:link value="View Datatable" outcome="ListCoffee"/></li>
-            <li><h:link value="Persist to Database" outcome="NewCoffee"/></li>
-            <li><h:link value="View and Edit a Specific Object" outcome="ViewCoffee"/></li>
-            <li><h:link value="Delete an Object" outcome=""/></li>
+            <li><h:link value="Save to Database" outcome="NewCoffee"/></li>
+            <li><h:link value="View a Specific Object" outcome="ViewCoffee"/></li>
+            <li><h:link value="Edit or Delete an Object" outcome="EditCoffee"/></li>
             <li><h:link value="Logging In and Out" outcome="Login"/></li>
-            <li><h:link value="Searching" outcome="Search"/></li>
+            <li><h:link value="Search" outcome="Search"/></li>
         </ul> 
     </ui:define>
 </ui:composition>

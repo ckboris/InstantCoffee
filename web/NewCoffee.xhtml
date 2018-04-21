@@ -7,7 +7,12 @@
     <f:metadata>
         <f:viewAction action="#{newCoffeeBean.init()}"/>
     </f:metadata>
-
+    <ui:define name="back">
+        <h:link value="Back" outcome="ListCoffee"/>
+    </ui:define>
+        <ui:define name="next">
+        <h:link value="Next" outcome="ViewCoffee"/>
+    </ui:define>
     <ui:define name="content">
         <h1>New Coffee</h1>
         <h:form>
@@ -24,12 +29,11 @@
                 <span class="error text-danger"> <h:message for="itemPrice" errorClass="error-message"/></span>
              </div>
             
-            <div class="form-group">
-                <h:outputLabel class="control-label col-sm-3" value="Roast"/>
-                <div class="col-sm-5">
+            <div class="control-group error">
+                <h:outputLabel value="Roast"/>
+                <div class="col-lg-10">
                     <h:selectOneMenu class="form-control"   
                             value="#{newCoffeeBean.coffee.roast}">
-                        <!-- Note: newItemBean.genders calls the getGenders() method above-->
                         <f:selectItems value="#{newCoffeeBean.roasts}" var="roast"
                                        itemValue="#{roast}" itemLabel="#{roast.label}"/>
                     </h:selectOneMenu>
@@ -38,14 +42,18 @@
 
             <div class="control-group error">
                 <h:outputLabel value="Brand"/>
-                <!--Formerly newCoffeeBean.coffee.brandId -->
-                <h:selectOneMenu value="#{newCoffeeBean.coffee.brand}"
-                                 converter="omnifaces.SelectItemsConverter">
-                    <f:selectItems value="#{newCoffeeBean.brandList}"/>
-                </h:selectOneMenu>
+                <div class="col-lg-10">
+                    <h:selectOneMenu class="form-control" 
+                                     value="#{newCoffeeBean.coffee.brand}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItems value="#{newCoffeeBean.brandList}"/>
+                    </h:selectOneMenu>
+                </div>
             </div>
             
-            <h:commandButton class="btn" value="Save" action="#{newCoffeeBean.submit()}"/>
+            <h:commandButton class="btn" 
+                             value="Save" 
+                             action="#{newCoffeeBean.submit()}"/>
         </h:form>
 
     </ui:define>

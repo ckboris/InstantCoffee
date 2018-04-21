@@ -7,13 +7,18 @@
     <ui:define name="top">
         top
     </ui:define>
-
+    <ui:define name="back">
+        <h:link value="Back" outcome="EditCoffee"/>
+    </ui:define>
+        <ui:define name="next">
+        <h:link value="Next" outcome="Search"/>
+    </ui:define>
     <ui:define name="content">
         <h1>Login</h1>
         <h:form id="loginForm" enctype="multipart/form-data">
-            <h:inputText class="form-control" value="#{loginBean.usn}" id="usn">
+            <h:inputText class="form-control" value="#{loginBean.username}" id="usn">
             </h:inputText>
-            <h:inputSecret class="form-control" value="#{loginBean.psw}"/>
+            <h:inputSecret class="form-control" value="#{loginBean.password}"/>
             <h:commandButton value="Log me in!" action="#{loginBean.login()}"/>
         </h:form>
 

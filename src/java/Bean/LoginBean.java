@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 /**
  *
  * @author Candace
+ * 
+ * Handles logic for logging in and out.
+ * 
  */
 @Model
 public class LoginBean implements Serializable {
@@ -22,9 +25,10 @@ public class LoginBean implements Serializable {
     private String password = null; 
     
     /**
-     * Empty constructor for LoginBean
+     * Empty constructor.
      */
     public LoginBean() {
+        
     }
     
     /**
@@ -41,16 +45,12 @@ public class LoginBean implements Serializable {
             req.login(username,password);
             if(req.isUserInRole("Admin")) {
                 flag=true;
-                System.out.println("User in role! Logged in!!!");
                 return "Admin/AdminPage.xhtml?faces-redirect=true";
             } else {
-                //this.addErrorMessageRedirect("User not found");
                 System.out.println("User not in role!");
                 return null;
             }
         } catch (ServletException se) {
-            //this.addErrorMessage("Incorrect username or password.");
-            LOG.log(Level.INFO, "Bad username or password");
             System.out.println("Bad username or password");
             return null;
         }
@@ -70,13 +70,11 @@ public class LoginBean implements Serializable {
         try {
             req.logout();
             ec.invalidateSession();
-            System.out.println("User logged OUT!!!");
             ec.redirect(ec.getRequestContextPath() + "/Login.xhtml?faces-redirect=true");
             return "";
         } catch (Exception e) {
             //this.addInfoMessage("Logout failed.");
             LOG.log(Level.INFO, "Logout failed");
-            System.out.println("Logout failed.");
             return null;
         }
     }
@@ -87,32 +85,52 @@ public class LoginBean implements Serializable {
      * @return The status of the boolean flag - true if user is logged 
      * in, false otherwise.
      */
-    public boolean isLoggedIn() {
-        return flag;
-    }
-    
-    /* Getters and setters for the fields */
-    public boolean isFlag() {
+    public boolean getFlag() {
         return flag;
     }
 
+    /**
+     * Set the flag indicating if a user is logged in or out.
+     * 
+     * @param flag Set true if the user is logged in, else set false.
+     */
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
-
-    public String getUsn() {
+    
+    /**
+     * Accessor method for username.
+     * 
+     * @return String representation of this username.
+     */
+    public String getUsername() {
         return username;
     }
 
-    public void setUsn(String username) {
+    /**
+     * Mutator method for username field.
+     * 
+     * @param username The String field to set.
+     */
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getPsw() {
+    /**
+     * Accessor method for password.
+     * 
+     * @return This user's password.
+     */
+    public String getPassword() {
         return password;
     }
 
-    public void setPsw(String password) {
+    /**
+     * Mutator method for password field.
+     * 
+     * @param password The String field to set.
+     */
+    public void setPassword(String password) {
         this.password = password;
     }
 }

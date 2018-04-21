@@ -44,15 +44,6 @@ public class Brand implements Serializable {
     
     public Brand() {
     }
-
-    /*
-    public Brand(long id, String name, String supplier, List<Coffee> varieties) {
-        this.id = id;
-        this.name = name;
-        this.supplier = supplier;
-        this.varieties = varieties;
-    }
-    */
     
     public void addCoffee(Coffee coffee) {
         coffee.setBrand(this);
@@ -108,7 +99,6 @@ public class Brand implements Serializable {
 
     @Override
     public String toString() {
-        //return String.format("Brand[%d, %s, %s, %s]", id, name, supplier, varieties.toString());
         //return String.format("%s[id=%d]", getClass().getSimpleName(), getId());
         return "" + id + "";
     }

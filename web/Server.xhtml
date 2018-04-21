@@ -1,12 +1,77 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns="http://www.w3.org/1999/xhtml"
-                template="./WEB-INF/templates/templatemain.xhtml">
+                template="./WEB-INF/templates/templatemain.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <ui:define name="back">
+        <h:link value="Back" outcome="Setup"/>
+    </ui:define>
+    <ui:define name="next">
+        <h:link value="Next" outcome="Database"/>
+    </ui:define>
     <ui:define name="content">
         <h1>Server</h1>
         <p class="lead">Setting up your WebLogic Server.</p>
+        
+        <h3>Authentication</h3>
+        <ol>
+            <li>Go to your WebLogic admin console located under <code>services -> 
+                servers</code>. Right click Oracle WebLogic Server and select View Admin 
+                Console. Open <code>realm -> users and groups -> create new group</code>.
+                Create a new group, then create a new user and assign that user to the 
+                group.
+                <br/>
+                <br/>
+                For the purposes of this example, we'll call the realm <code>demorealm</code>,
+                the group <code>Admin</code> and the user <code>DemoAdmin</code>.
+            </li>
+            
+            <li>
+                Open <code>weblogic.xml</code> located under <code>project -> 
+                configuration files</code>. Create a role assignment tag like so:
+                
+                <pre><code class="xml">
+        &lt;security-role-assignment&gt;
+            &lt;role-name&gt;Admin&lt;/role-name&gt;
+            &lt;principal-name&gt;Admin&lt;/principal-name&gt;
+        &lt;/security-role-assignment&gt;
+                </code></pre>
+            </li>
+            
+            <li>
+                Open <code>web.xml</code> located under <code>project -> 
+                configuration files</code>.
+                
+                <pre><code>
+        &lt;security-constraint&gt;
+            &lt;display-name&gt;AdminConstraint&lt;/display-name&gt;
+            &lt;web-resource-collection&gt;
+                &lt;web-resource-name&gt;Admin&lt;/web-resource-name&gt;
+                &lt;description&gt;Admin pages&lt;/description&gt;
+                &lt;url-pattern&gt;/admin/*&lt;/url-pattern&gt;
+            &lt;/web-resource-collection&gt;
+            &lt;auth-constraint&gt;
+                &lt;description/&gt;
+                &lt;role-name&gt;Admin&lt;/role-name&gt; 
+                &lt;!--This matches the role name given as the WebLogic usergroup--&gt;
+            &lt;/auth-constraint&gt;
+        &lt;/security-constraint&gt;
+        &lt;login-config&gt;
+            &lt;auth-method&gt;FORM&lt;/auth-method&gt;
+            &lt;realm-name&gt;demorealm&lt;/realm-name&gt;
+            &lt;form-login-config&gt;
+                &lt;form-login-page&gt;/index.xhtml&lt;/form-login-page&gt;
+                &lt;form-error-page&gt;/error.xhtml&lt;/form-error-page&gt;
+            &lt;/form-login-config&gt;
+        &lt;/login-config&gt;
+        &lt;security-role&gt;
+            &lt;description/&gt;
+            &lt;role-name&gt;Admin&lt;/role-name&gt;
+        &lt;/security-role&gt;
+                </code></pre>
+            </li>
+        </ol>
     </ui:define>
-
 </ui:composition>

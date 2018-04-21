@@ -8,6 +8,12 @@
         <f:viewParam name='searchString' value='#{searchBean.searchQuery}'/>
     </f:metadata>
     
+    <ui:define name="back">
+        <h:link value="Back" outcome="Login"/>
+    </ui:define>
+    <ui:define name="next">
+        <h:link value="Back" outcome="Login" style="visibility: hidden"/>
+    </ui:define>
     <ui:define name="content">
         <!--The search bar-->
         <h1>Search</h1>
@@ -20,18 +26,45 @@
         </div>
         </h:form>
         <!--The results-->
-        <h:dataTable value="#{searchBean.results}" var="result">
+        
+        <h:dataTable class="table" 
+                     value="#{searchBean.results}" 
+                     var="coffee"
+                     rendered="#{not empty searchBean.results}">
             <h:column>
                 <f:facet name="header">Coffee Name</f:facet>
-                #{result.variety}
+                #{coffee.variety}
             </h:column>
+            <h:column>
+                <f:facet name="header">View More</f:facet>
+                <h:button outcome="ViewCoffee?id=#{coffee.id}" value="Go"/>
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">Edit</f:facet>
+                <h:button outcome="EditCoffee?id=#{coffee.id}" value="Go"/>
+            </h:column>
+           
             <!--etc-->
         </h:dataTable>
+        
+        <h:column rendered="#{empty searchBean.results and 
+                              searchBean.searchQuery ne null}">
+            <strong>No Results</strong>
+        </h:column>
 
     </ui:define>
 
-    <ui:define name="code">
-        code
+    <ui:define name="xhtml">
+        XHTML
+    </ui:define>
+    
+    <ui:define name="service">
+        Service
+    </ui:define>
+    
+    <ui:define name="bean">
+        Bean
     </ui:define>
 
 </ui:composition>

@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Service;
 
-import Pojo.Brand;
 import Pojo.Coffee;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -61,6 +55,12 @@ public class CoffeeService {
         em.merge(coffee);
     }
     
+    /**
+     * Query the Coffee table based on a given search string.
+     * 
+     * @param searchString The search text to query by.
+     * @return A List of Coffee objects matching the search.
+     */
     public List<Coffee> searchByAll(String searchString) {
         Query q = em.createNamedQuery("Coffee.findByAll");
         //Note: This MUST MATCH THE NAME GIVEN IN THE VIEW'S VIEWPARAM!!!
@@ -69,10 +69,9 @@ public class CoffeeService {
         return coffees;
     }
     
-    //TESTING
-    public void persistCoffee(Long brandId, Coffee coffee) {
-        Brand brand = em.find(Brand.class, brandId);
-        brand.addCoffee(coffee);
+    public void delete(Coffee coffee) {
+        em.merge(coffee);
+        em.remove(coffee);
+        
     }
-    
 }

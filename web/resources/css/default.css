@@ -4,6 +4,7 @@ body {
     font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
     color: #000000;  
     margin: 10px;
+    padding-bottom: 20px;
 }
 
 h1 {
@@ -25,7 +26,7 @@ a:link, a:visited {
 a:link:hover, a:visited:hover  {
   color: #045491;
   font-weight : bold;
-  text-decoration : underline;
+  text-decoration : none;
 }
 
 .header {
@@ -45,12 +46,25 @@ footer {
 }
 
 .col-xs-6 {
-    border: 2px solid gray;
+
 }
 
 .btnlink {
     border: 1px solid black;
     background-color: lightgray;
-    padding: 2px;
+    padding: 6px 12px 2px 12px;
     margin: 2px;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0px 0px;
+}
+
+.service-div,.xhtml-div {
+    display: none;
+}
+pre {
+    overflow-x: auto;
+}
+pre code {
+    overflow-wrap: normal;
+    white-space: pre;
 }

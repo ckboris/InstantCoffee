@@ -13,8 +13,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 /**
- *
  * @author Candace
+ * 
+ * Handles searching the database and presenting results.
  */
 @ManagedBean
 @RequestScoped
@@ -31,7 +32,6 @@ public class SearchBean {
      * Empty constructor.
      */
     public SearchBean() {
-         System.out.println("In SearchBean!");
     }
     
     /**
@@ -39,14 +39,12 @@ public class SearchBean {
      */
     @PostConstruct
     public void init() {
-         System.out.println("In init!");
-    }
+    } 
 
     /**
      * Display the results of a given search query.
      */
     public void displaySearch() {
-        System.out.println("In DisplaySearch!");
         results.clear();
         for (String str : stringHandler(searchQuery)) {
             searchCoffees(str);
@@ -60,14 +58,12 @@ public class SearchBean {
      * @param str The search string.
      */
     public void searchCoffees(String str) {
-        System.out.println("In SearchCoffees!");
         List<Coffee> coffees = coffeeService.searchByAll(str);
         try {
             for (Coffee i : coffees) {
                 results.add(i);
             }
         } catch (Exception e) {
-            System.out.println("Couldn't find coffee.");
             LOG.log(Level.INFO, "Error performing search", e);
 
         }
@@ -81,40 +77,60 @@ public class SearchBean {
      * @return A List of Strings representing the parts of the search.
      */
     public List<String> stringHandler(String str) {
-            System.out.println("In StringHandler!");
             List<String> searchTerms = new ArrayList<>();
             try {
                 if (str != null && !str.isEmpty()) {
                     searchTerms.addAll(Arrays.asList(str.split(" ")));
                 }
             } catch (Exception e) {
-                System.out.println("Null search term.");
                 LOG.log(Level.INFO, "Null search term", e);
             }
             return searchTerms;
     }
 
-    /* Getters and setters for fields */
+    /**
+     * Accessor method for Coffee service.
+     * 
+     * @return CoffeeService object.
+     */
     public CoffeeService getCoffeeService() {
         return coffeeService;
     }
 
-    public void setCoffeeService(CoffeeService coffeeService) {
-        this.coffeeService = coffeeService;
-    }
-
+    //REMOVED SETCOFFEESERVICE
+    
+    /**
+     * Accessor method for search query.
+     * 
+     * @return SearchQuery string.
+     */
     public String getSearchQuery() {
         return searchQuery;
     }
 
+    /**
+     * Mutator method for search query.
+     * 
+     * @param searchQuery The search string being set.
+     */
     public void setSearchQuery(String searchQuery) {
         this.searchQuery = searchQuery;
     }
 
+    /**
+     * Accessor method for results list.
+     * 
+     * @return List of Coffee objects.
+     */
     public List<Coffee> getResults() {
         return results;
     }
 
+    /**
+     * Mutator method for results list.
+     * 
+     * @param results The List of Coffee objects to set.
+     */
     public void setResults(List<Coffee> results) {
         this.results = results;
     }

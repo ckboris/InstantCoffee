@@ -1,12 +1,99 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns="http://www.w3.org/1999/xhtml"
-                template="./WEB-INF/templates/templatemain.xhtml">
-
+                template="./WEB-INF/templates/templatemain.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml">
+    
+    <ui:define name="back">
+        <h:link value="Back" outcome="Server"/>
+    </ui:define>
+    <ui:define name="next">
+        <h:link value="Next" outcome="App"/>
+    </ui:define>
     <ui:define name="content">
         <h1>Database</h1>
         <p class="lead">Setting up Oracle Database 12c.</p>
+        
+        <h3>Create Schema</h3>
+        <ol>
+            <li>In SQLPLUS, run command <code>alter session set "_ORACLE_SCRIPT"</code></li>
+            <li>Create a new user:
+                <pre><code>
+                CREATE USER DEMO
+                IDENTIFIED BY password1
+                DEFAULT TABLESPACE users
+                TEMPORARY TABLESPACE temp
+                QUOTA 20M on users;
+                </code></pre>
+            </li>
+            
+            <li>Grant privileges:
+                <pre><code>
+                GRANT create session TO demo;
+                GRANT create table TO demo;
+                GRANT create view TO demo;
+                GRANT create any trigger TO demo;
+                GRANT create any procedure TO demo;
+                GRANT create sequence TO demo;
+                GRANT create synonym TO demo;
+                </code></pre>
+            </li>
+            
+            <li>Create schema:
+                <pre><code>
+                CREATE SCHEMA AUTHORIZATION demo;
+                    CREATE TABLE products
+                       ( product_id number(10) not null,
+                         product_name varchar2(50) not null,
+                         category varchar2(50),
+                         CONSTRAINT products_pk PRIMARY KEY (product_id)
+                        );
+                </code></pre>
+            </li>
+            
+            <li>Change what schema you're in with:
+                <pre><code>
+                 ALTER SESSION SET CURRENT_SCHEMA=DEMO;  
+                </code></pre>
+            </li>
+            
+            <li>And make a synonym for your table:
+                <pre><code>
+                CREATE PUBLIC SYNONYM products
+                    FOR demo.products;
+                </code></pre>
+            </li>
+        </ol>
+        
+        <p>Note: Working with tables in SQL Plus is annoying, so connect with 
+        SQL Developer instead.</p>
+        
+        <h3>Connecting Oracle DB to NetBeans</h3>
+        <p>Next, connect NetBeans to the DB. Use Oracle Thin client driver, which can be downloaded at the link in the wizard.
+        In customize connection, choose:
+        <ul>
+            <li>Driver name: Oracle Thin SID</li>
+            <li>Host: localhost, port: 1521</li>
+            <li>Service ID: orcl</li>
+            <li>Username: demo</li>
+            <li>Password: password1</li>
+        </ul>
+        Then test the connection.
+        </p>
+
+        <h3>Setting up persistence</h3>
+        <p>You'll need to start a project before this next step. <h:link value="See here" outcome="Project"/></p>
+        <ol>
+            <li>In NetBeans, go to <code>file -> new file</code> and search persistence to locate "persistence unit". 
+                Use your local DB address as the connection, e.g. <code>demo@//localhost:1521/orcl</code>.
+            </li>
+            <li>Log into Admin Console and configure the data source under <code>Services -> Data Sources -> New</code>.
+                Use the database name, host name, port, username and password you used during the database setup. Test
+                the configuration and finish. NOTE: Make sure "AdminServer" (or whatever you named your server) is selected
+                as a target.
+            </li>
+        </ol>
     </ui:define>
 
 </ui:composition>

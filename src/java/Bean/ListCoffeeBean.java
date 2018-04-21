@@ -1,21 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Bean;
 
 import Pojo.Coffee;
 import Service.CoffeeService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 /**
- *
  * @author Candace
+ * 
+ * Handles displaying Coffee objects from the database.
  */
 @ManagedBean
 @RequestScoped
@@ -23,9 +21,9 @@ public class ListCoffeeBean {
     @EJB
     private CoffeeService coffeeService;
     private static final long serialVersionUID = 1L;
-    //logger 
     private List<Coffee> coffeeList = new ArrayList<>();
-
+    private static final Logger LOG = Logger.getLogger(ViewCoffeeBean.class.getName());
+    
     /**
      * Empty constructor.
      */
@@ -40,7 +38,7 @@ public class ListCoffeeBean {
         try {
             coffeeList = coffeeService.findAll();
         } catch (Exception ex) {
-            System.out.print("Coffee List cannot be loaded.");
+            LOG.log(Level.SEVERE, "Error loading the Coffee objects from database: ", ex);
         }
     }
 

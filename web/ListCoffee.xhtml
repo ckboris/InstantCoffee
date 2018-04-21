@@ -5,12 +5,14 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns="http://www.w3.org/1999/xhtml">
 
+    <ui:define name="next">
+        <h:link value="Next" outcome="NewCoffee"/>
+    </ui:define>
     <ui:define name="content">
         <f:metadata>
             <f:viewAction action="#{listCoffeeBean.loadCoffeeList()}"/>
         </f:metadata>
-        
-        <h1>Listing Items</h1>
+        <h1>View All</h1>
         <h:dataTable class="table" 
                      value="#{listCoffeeBean.coffeeList}" var="coffee"
                     rendered="#{!(listCoffeeBean.coffeeList.isEmpty())}"> 
@@ -21,18 +23,220 @@
             
             <h:column>
                 <f:facet name="header">Price</f:facet>
-                #{coffee.price}
+                $#{coffee.price}
             </h:column>
             
             <h:column>
                 <f:facet name="header">View More</f:facet>
                 <h:button outcome="ViewCoffee?id=#{coffee.id}" value="Go"/>
             </h:column>
+            
+            <h:column>
+                <f:facet name="header">Edit</f:facet>
+                <h:button outcome="EditCoffee?id=#{coffee.id}" value="Go"/>
+            </h:column>
         </h:dataTable>
+    </ui:define>
+    
+    <ui:define name="xhtml">
+    &lt;?xml version='1.0' encoding='UTF-8' ?&gt;
+    &lt;!DOCTYPE composition PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+    &lt;ui:composition xmlns:ui=&quot;http://xmlns.jcp.org/jsf/facelets&quot;
+                    template=&quot;./WEB-INF/templates/template.xhtml&quot;
+                    xmlns:f=&quot;http://xmlns.jcp.org/jsf/core&quot;
+                    xmlns:h=&quot;http://xmlns.jcp.org/jsf/html&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+                    &lt;f:metadata&gt;
+                        &lt;f:viewParam name=&quot;id&quot; value=&quot;#{editCoffeeBean.id}&quot;/&gt;
+                        &lt;f:viewAction action=&quot;#{editCoffeeBean.init()}&quot;/&gt;
+                    &lt;/f:metadata&gt;
 
-        <div class="code">
-            
-            
-        </div>
+        &lt;ui:define name=&quot;content&quot;&gt;
+            &lt;h1&gt;Edit Coffee&lt;/h1&gt;
+            &lt;h:form&gt;
+                &lt;div class=&quot;control-group error&quot;&gt;
+                    &lt;h:outputLabel value=&quot;Variety &quot;/&gt;
+                    &lt;h:inputText id=&quot;itemName&quot; class=&quot;form-control&quot; value=&quot;#{editCoffeeBean.coffee.variety}&quot;/&gt;
+                    &lt;span class=&quot;error text-danger&quot;&gt; &lt;h:message for=&quot;itemName&quot; errorClass=&quot;error-message&quot;/&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;control-group error&quot;&gt;
+                    &lt;h:outputLabel value=&quot;Price &quot;/&gt;
+                    &lt;h:inputText id=&quot;itemPrice&quot; class=&quot;form-control&quot; value=&quot;#{editCoffeeBean.coffee.price}&quot;/&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;control-group error&quot;&gt;
+                    &lt;h:outputLabel value=&quot;Roast&quot;/&gt;
+                    &lt;div class=&quot;col-lg-10&quot;&gt;
+                        &lt;h:selectOneMenu class=&quot;form-control&quot;   
+                                value=&quot;#{newCoffeeBean.coffee.roast}&quot;&gt;
+                            &lt;f:selectItems value=&quot;#{newCoffeeBean.roasts}&quot; var=&quot;roast&quot;
+                                           itemValue=&quot;#{roast}&quot; itemLabel=&quot;#{roast.label}&quot;/&gt;
+                        &lt;/h:selectOneMenu&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div&gt;
+                    &lt;h:commandButton class=&quot;btn&quot; value=&quot;Save Changes&quot; action=&quot;#{editCoffeeBean.submit()}&quot;/&gt;
+                &lt;/div&gt;
+
+                &lt;div&gt;
+                    &lt;h:commandButton class=&quot;btn btn-danger&quot; value=&quot;Delete Coffee&quot; action=&quot;#{editCoffeeBean.delete()}&quot;/&gt;
+                &lt;/div&gt;
+            &lt;/h:form&gt;
+        &lt;/ui:define&gt;
+
+        &lt;ui:define name=&quot;xhtml&quot;&gt;
+            XHTML
+        &lt;/ui:define&gt;
+
+        &lt;ui:define name=&quot;service&quot;&gt;
+            Service
+        &lt;/ui:define&gt;
+
+        &lt;ui:define name=&quot;bean&quot;&gt;
+            Bean
+        &lt;/ui:define&gt;
+
+    &lt;/ui:composition&gt;
+
+    </ui:define>
+    
+    <ui:define name="service">
+    package Service;
+    import Pojo.Coffee;
+    import java.util.List;
+    import javax.ejb.Stateless;
+    import javax.persistence.EntityManager;
+    import javax.persistence.PersistenceContext;
+    import javax.persistence.Query;
+
+    /**
+     *
+     * @author Candace
+     */
+    @Stateless
+    public class CoffeeService {
+        @PersistenceContext(unitName=&quot;InstantCoffeePU&quot;)
+        private EntityManager em;
+
+        /**
+         * Load a Coffee object given an ID.
+         * 
+         * @param id Identifier for the Coffee object to load.
+         * @return Coffee object associated with the ID.
+         */
+        public Coffee load(Long id) {
+            return em.find(Coffee.class, id);
+        }
+
+        /**
+         * Add a new Coffee object to the database.
+         * 
+         * @param coffee The new Coffee object to be persisted.
+         */
+        public void create(Coffee coffee) {
+            em.persist(coffee);
+        } 
+
+        /**
+         * Get all Coffee objects in the database.
+         * 
+         * @return A List containing all Coffee objects in the database.
+         */
+        public List&lt;Coffee&gt; findAll() {
+            Query q = em.createNamedQuery(&quot;Coffee.FindAll&quot;);
+            List&lt;Coffee&gt; coffees = (List&lt;Coffee&gt;) q.getResultList();
+            return coffees;
+        }
+
+        /**
+         * Update a Coffee object in the database.
+         * 
+         * @param coffee The Coffee object being updated.
+         */
+        public void update(Coffee coffee) {
+            em.merge(coffee);
+        }
+
+        /**
+         * Query the Coffee table based on a given search string.
+         * 
+         * @param searchString The search text to query by.
+         * @return A List of Coffee objects matching the search.
+         */
+        public List&lt;Coffee&gt; searchByAll(String searchString) {
+            Query q = em.createNamedQuery(&quot;Coffee.findByAll&quot;);
+            //Note: This MUST MATCH THE NAME GIVEN IN THE VIEW'S VIEWPARAM!!!
+            q.setParameter(&quot;searchString&quot;,(&quot;%&quot;+searchString+&quot;%&quot;).toLowerCase());
+            List&lt;Coffee&gt; coffees = (List&lt;Coffee&gt;) q.getResultList();
+            return coffees;
+        }
+
+        public void delete(Coffee coffee) {
+            em.merge(coffee);
+            em.remove(coffee);
+
+        }
+    }
+
+    </ui:define>
+    
+    <ui:define name="bean">
+    package Bean;
+    import Pojo.Coffee;
+    import Service.CoffeeService;
+    import java.util.ArrayList;
+    import java.util.List;
+    import javax.ejb.EJB;
+    import javax.faces.bean.ManagedBean;
+    import javax.faces.bean.RequestScoped;
+
+    /**
+     *
+     * @author Candace
+     */
+    @ManagedBean
+    @RequestScoped
+    public class ListCoffeeBean {
+        @EJB
+        private CoffeeService coffeeService;
+        private static final long serialVersionUID = 1L;
+        //logger 
+        private List&lt;Coffee&gt; coffeeList = new ArrayList&lt;&gt;();
+
+        /**
+         * Empty constructor.
+         */
+        public ListCoffeeBean() {
+        }
+
+        /**
+         * Load all Coffee objects from database, or throw an error if they cannot 
+         * be loaded.
+         */
+        public void loadCoffeeList() {
+            try {
+                coffeeList = coffeeService.findAll();
+            } catch (Exception ex) {
+                System.out.print(&quot;Coffee List cannot be loaded.&quot;);
+            }
+        }
+
+        /* Getters and Setters */
+        public CoffeeService getCoffeeService() {
+            return coffeeService;
+        }
+
+        public void setCoffeeService(CoffeeService coffeeService) {
+            this.coffeeService = coffeeService;
+        }
+
+        public List&lt;Coffee&gt; getCoffeeList() {
+            return coffeeList;
+        }
+
+        public void setCoffeeList(List&lt;Coffee&gt; coffeeList) {
+            this.coffeeList = coffeeList;
+        }
+    }
+
     </ui:define>
 </ui:composition>

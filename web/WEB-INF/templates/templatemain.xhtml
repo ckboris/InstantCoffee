@@ -11,12 +11,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>        
         <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
-        <link rel="stylesheet"
-              href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/default.min.css"></link>
+        <link type="text/css" rel="stylesheet" href="/cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/styles/default.min.css"></link>
+        <link type="text/css" rel="stylesheet" href="jquery.fancybox.min.css"></link>
+        <h:outputStylesheet name="css/github.css"/>
         <title>Facelets Template</title>
     </h:head>
 
     <h:body>
+        <h:outputScript target="body">
+            hljs.initHighlightingOnLoad();
+        </h:outputScript>
         <div id="content" class="center_content">
             <div class="header"></div>
             
@@ -52,7 +56,14 @@
             
             
             <div class="container">
-                <!--DIV FOR LIVE DEMO-->
+                <!--Navigation-->
+                <div class="col-xs-6">
+                    <ui:insert name="back"></ui:insert>
+                </div>
+                <div class="col-xs-6">
+                    <ui:insert name="next"></ui:insert>
+                </div>
+                <!--Content-->
                 <div class="row">
                     <div class="col-lg-10">
                         <div class="starter-template">
@@ -68,6 +79,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
+    <script src="jquery.fancybox.min.js"></script>
     <h:outputScript name="bootstrap-3.3.7-dist/js/bootstrap.min.js"/>
     <h:outputScript name="js/jquery-3.3.1.js"/>
     <h:outputScript name="js/custom.js"/>
