@@ -35,39 +35,20 @@ public class ViewCoffeeBean implements Serializable {
             LOG.log(Level.SEVERE, "Error loading the Coffee object", e);
         }
     }
-    
-    /**
-     * Accessor method for ID field.
-     * 
-     * @return The long ID of this coffee object.
-     */ 
+
+    /* Getters and Setters */
     public long getId() {
         return id;
     }
 
-    /**
-     * Mutator method for ID field.
-     * 
-     * @param id The long to set the ID field to.
-     */
     public void setId(long id) {
         this.id = id;
     }
 
-    /**
-     * Accessor method for coffee field.
-     * 
-     * @return The Coffee object.
-     */
     public Coffee getCoffee() {
         return coffee;
     }
-    
-    /**
-     * Mutator method for coffee field.
-     * 
-     * @param coffee The Coffee object to set the coffee field to.
-     */
+
     public void setCoffee(Coffee coffee) {
         this.coffee = coffee;
     }

@@ -8,10 +8,12 @@
         <f:viewAction action="#{newCoffeeBean.init()}"/>
     </f:metadata>
     <ui:define name="back">
+        <span class="glyphicon glyphicon-arrow-left"></span>
         <h:link value="Back" outcome="ListCoffee"/>
     </ui:define>
         <ui:define name="next">
         <h:link value="Next" outcome="ViewCoffee"/>
+        <span class="glyphicon glyphicon-arrow-right"></span>
     </ui:define>
     <ui:define name="content">
         <h1>New Coffee</h1>

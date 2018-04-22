@@ -95,39 +95,20 @@ public class EditCoffeeBean implements Serializable {
             return "/";
         }
     } 
-    
-    /**
-     * Accessor method for the Coffee field.
-     * 
-     * @return The Coffee object.
-     */
+
+    /* Getters and Setters */
     public Coffee getCoffee() {
         return coffee;
     }
 
-    /**
-     * Mutator method for the Coffee field
-     * 
-     * @param coffee The Coffee object to set the coffee field to.
-     */
     public void setCoffee(Coffee coffee) {
         this.coffee = coffee;
     }
-    
-    /**
-     * Accessor method for ID field.
-     * 
-     * @return The Long ID of this Coffee object.
-     */
+
     public long getId() {
         return id;
     }
-    
-    /**
-     * Mutator method for ID field.
-     * 
-     * @param id The long to set the ID field to.
-     */
+
     public void setId(long id) {
         this.id = id;
     }

@@ -88,49 +88,23 @@ public class SearchBean {
             return searchTerms;
     }
 
-    /**
-     * Accessor method for Coffee service.
-     * 
-     * @return CoffeeService object.
-     */
+    /* Getters and Setters */
     public CoffeeService getCoffeeService() {
         return coffeeService;
     }
 
-    //REMOVED SETCOFFEESERVICE
-    
-    /**
-     * Accessor method for search query.
-     * 
-     * @return SearchQuery string.
-     */
     public String getSearchQuery() {
         return searchQuery;
     }
 
-    /**
-     * Mutator method for search query.
-     * 
-     * @param searchQuery The search string being set.
-     */
     public void setSearchQuery(String searchQuery) {
         this.searchQuery = searchQuery;
     }
 
-    /**
-     * Accessor method for results list.
-     * 
-     * @return List of Coffee objects.
-     */
     public List<Coffee> getResults() {
         return results;
     }
 
-    /**
-     * Mutator method for results list.
-     * 
-     * @param results The List of Coffee objects to set.
-     */
     public void setResults(List<Coffee> results) {
         this.results = results;
     }

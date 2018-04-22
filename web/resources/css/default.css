@@ -30,12 +30,19 @@ a:link:hover, a:visited:hover  {
 }
 
 .header {
-    background-color: purple;
+    background-color: tan;
+    background-image: url("../images/instantcoffeeheader.png");
+    background-position: 20px 5px;
+    background-size: 600px 100px;
+    background-repeat: no-repeat;
     height:100px;
 }
 
 .fixed-bottom {
-    background-color: lightgray;
+    padding: 3px 0px 0px 10px;
+    font-size: 10px;
+    color: #9d9d9d;
+    background-color: #101010;
 }
 
 footer {
@@ -67,4 +74,14 @@ pre {
 pre code {
     overflow-wrap: normal;
     white-space: pre;
+}
+.nextnav {
+    text-align: right;
+}
+
+.nextnav, .backnav {
+    padding-bottom: 10px;
+}
+.nextnav a, .backnav a {
+    padding: 0px 10px 0px 10px;
 }

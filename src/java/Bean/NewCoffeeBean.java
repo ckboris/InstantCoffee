@@ -70,7 +70,7 @@ public class NewCoffeeBean implements Serializable {
             coffeeService.create(coffee);
             return "/ListCoffee.xhtml?faces-redirect=true";
         } catch (Exception ex) {
-            System.out.print("Exception " + ex + " occured. Coffee not submitted.");
+            LOG.log(Level.SEVERE, "Error submitting Coffee", ex);
             return null;
         }
     }
@@ -84,114 +84,55 @@ public class NewCoffeeBean implements Serializable {
         return Roast.values();
     }
     
-    /**
-     * Accessor method for CoffeeService.
-     * 
-     * @return CoffeeService object.
-     */
+    /* Getters and Setters */
     public CoffeeService getCoffeeService() {
         return coffeeService;
     }
 
-    
     public void setCoffeeService(CoffeeService coffeeService) {
         this.coffeeService = coffeeService;
     }
 
-    /**
-     * Accessor method for Coffee object.
-     * 
-     * @return Coffee object.
-     */
     public Coffee getCoffee() {
         return coffee;
     }
 
-    /**
-     * Mutator method for
-     * 
-     * @param coffee The Coffee object to set the coffee field to.
-     */
     public void setCoffee(Coffee coffee) {
         this.coffee = coffee;
     }
 
-    /**
-     * Accessor method for brand field.
-     * 
-     * @return The Brand object.
-     */
     public Brand getBrand() {
         return brand;
     }
 
-    /**
-     * Mutator method for brand field.
-     * 
-     * @param brand The Brand to set the brand field to.
-     */
     public void setBrand(Brand brand) {
         this.brand = brand;
     }
 
-    /**
-     * Accessor method for BrandService.
-     * 
-     * @return The BrandService object.
-     */
     public BrandService getBrandService() {
         return brandService;
     }
 
-    /**
-     * Mutator method for
-     * 
-     * @param brandService The BrandService to set the brandSerive field to.
-     */
     public void setBrandService(BrandService brandService) {
         this.brandService = brandService;
     }
 
-    /**
-     * Accessor method for list of Brand IDs.
-     * 
-     * @return A List of BrandIDs.
-     */
     public List<Long> getBrandIdList() {
         return brandIdList;
     }
 
-    /**
-     * Accessor method for roast field.
-     * 
-     * @return 
-     */
     public Roast getRoast() {
         return roast;
     }
 
-    /**
-     * Mutator method for roast field.
-     * 
-     * @param roast The Roast to set the roast field to.
-     */
     public void setRoast(Roast roast) {
         this.roast = roast;
     }
 
-    /**
-     * Accessor method for Brand list.
-     * 
-     * @return 
-     */
     public List<Brand> getBrandList() {
         return brandList;
     }
 
-    /**
-     * M
-     * @param brandList 
-     */
     public void setBrandList(List<Brand> brandList) {
         this.brandList = brandList;
     }

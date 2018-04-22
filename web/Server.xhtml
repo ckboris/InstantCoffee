@@ -6,10 +6,12 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="back">
+        <span class="glyphicon glyphicon-arrow-left"></span>
         <h:link value="Back" outcome="Setup"/>
     </ui:define>
     <ui:define name="next">
-        <h:link value="Next" outcome="Database"/>
+        <h:link value="Next" outcome="Project"/>
+        <span class="glyphicon glyphicon-arrow-right"></span>
     </ui:define>
     <ui:define name="content">
         <h1>Server</h1>

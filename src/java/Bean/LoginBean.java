@@ -97,39 +97,20 @@ public class LoginBean implements Serializable {
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
-    
-    /**
-     * Accessor method for username.
-     * 
-     * @return String representation of this username.
-     */
+
+    /* Getters and Setters */
     public String getUsername() {
         return username;
     }
 
-    /**
-     * Mutator method for username field.
-     * 
-     * @param username The String field to set.
-     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     * Accessor method for password.
-     * 
-     * @return This user's password.
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * Mutator method for password field.
-     * 
-     * @param password The String field to set.
-     */
     public void setPassword(String password) {
         this.password = password;
     }
