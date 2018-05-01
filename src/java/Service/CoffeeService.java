@@ -10,6 +10,9 @@ import javax.persistence.Query;
 /**
  *
  * @author Candace
+ * 
+ * Handles connection to Coffee table. 
+ * 
  */
 @Stateless
 public class CoffeeService {
@@ -63,12 +66,17 @@ public class CoffeeService {
      */
     public List<Coffee> searchByAll(String searchString) {
         Query q = em.createNamedQuery("Coffee.findByAll");
-        //Note: This MUST MATCH THE NAME GIVEN IN THE VIEW'S VIEWPARAM!!!
+        //Note: This must match the name given in the view's viewparam.
         q.setParameter("searchString",("%"+searchString+"%").toLowerCase());
         List<Coffee> coffees = (List<Coffee>) q.getResultList();
         return coffees;
     }
     
+    /**
+     * Delete a Coffee object from the table.
+     * 
+     * @param coffee Coffee to delete.
+     */
     public void delete(Coffee coffee) {
         em.merge(coffee);
         em.remove(coffee);

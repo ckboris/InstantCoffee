@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./WEB-INF/templates/template.xhtml"
+<ui:composition template="./WEB-INF/templates/template.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns="http://www.w3.org/1999/xhtml">
+    <!--Forward/backward navigation-->
     <ui:define name="next">
         <h:link value="Next" outcome="NewCoffee"/>
         <span class="glyphicon glyphicon-arrow-right"></span>
@@ -38,7 +39,7 @@
         </h:dataTable>
     </ui:define>
     
-    <ui:define name="xhtml">
+       <ui:define name="xhtml">
     &lt;?xml version='1.0' encoding='UTF-8' ?&gt;
     &lt;!DOCTYPE composition PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
     &lt;ui:composition xmlns:ui=&quot;http://xmlns.jcp.org/jsf/facelets&quot;
@@ -46,8 +47,8 @@
                     xmlns:f=&quot;http://xmlns.jcp.org/jsf/core&quot;
                     xmlns:h=&quot;http://xmlns.jcp.org/jsf/html&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
                     &lt;f:metadata&gt;
-                        &lt;f:viewParam name=&quot;id&quot; value=&quot;#{editCoffeeBean.id}&quot;/&gt;
-                        &lt;f:viewAction action=&quot;#{editCoffeeBean.init()}&quot;/&gt;
+                        &lt;f:viewParam name=&quot;id&quot; value=&quot;#&#123;editCoffeeBean.id&#125;&quot;/&gt;
+                        &lt;f:viewAction action=&quot;#&#123;editCoffeeBean.init()&#125;&quot;/&gt;
                     &lt;/f:metadata&gt;
 
         &lt;ui:define name=&quot;content&quot;&gt;
@@ -55,30 +56,30 @@
             &lt;h:form&gt;
                 &lt;div class=&quot;control-group error&quot;&gt;
                     &lt;h:outputLabel value=&quot;Variety &quot;/&gt;
-                    &lt;h:inputText id=&quot;itemName&quot; class=&quot;form-control&quot; value=&quot;#{editCoffeeBean.coffee.variety}&quot;/&gt;
+                    &lt;h:inputText id=&quot;itemName&quot; class=&quot;form-control&quot; value=&quot;#&#123;editCoffeeBean.coffee.variety&#125;&quot;/&gt;
                     &lt;span class=&quot;error text-danger&quot;&gt; &lt;h:message for=&quot;itemName&quot; errorClass=&quot;error-message&quot;/&gt;&lt;/span&gt;
                 &lt;/div&gt;
                 &lt;div class=&quot;control-group error&quot;&gt;
                     &lt;h:outputLabel value=&quot;Price &quot;/&gt;
-                    &lt;h:inputText id=&quot;itemPrice&quot; class=&quot;form-control&quot; value=&quot;#{editCoffeeBean.coffee.price}&quot;/&gt;
+                    &lt;h:inputText id=&quot;itemPrice&quot; class=&quot;form-control&quot; value=&quot;#&#123;editCoffeeBean.coffee.price&#125;&quot;/&gt;
                 &lt;/div&gt;
                 &lt;div class=&quot;control-group error&quot;&gt;
                     &lt;h:outputLabel value=&quot;Roast&quot;/&gt;
                     &lt;div class=&quot;col-lg-10&quot;&gt;
                         &lt;h:selectOneMenu class=&quot;form-control&quot;   
-                                value=&quot;#{newCoffeeBean.coffee.roast}&quot;&gt;
-                            &lt;f:selectItems value=&quot;#{newCoffeeBean.roasts}&quot; var=&quot;roast&quot;
-                                           itemValue=&quot;#{roast}&quot; itemLabel=&quot;#{roast.label}&quot;/&gt;
+                                value=&quot;#&#123;newCoffeeBean.coffee.roast&#125;&quot;&gt;
+                            &lt;f:selectItems value=&quot;#&#123;newCoffeeBean.roasts&#125;&quot; var=&quot;roast&quot;
+                                           itemValue=&quot;#&#123;roast&#125;&quot; itemLabel=&quot;#&#123;roast.label&#125;&quot;/&gt;
                         &lt;/h:selectOneMenu&gt;
                     &lt;/div&gt;
                 &lt;/div&gt;
 
                 &lt;div&gt;
-                    &lt;h:commandButton class=&quot;btn&quot; value=&quot;Save Changes&quot; action=&quot;#{editCoffeeBean.submit()}&quot;/&gt;
+                    &lt;h:commandButton class=&quot;btn&quot; value=&quot;Save Changes&quot; action=&quot;#&#123;editCoffeeBean.submit()&#125;&quot;/&gt;
                 &lt;/div&gt;
 
                 &lt;div&gt;
-                    &lt;h:commandButton class=&quot;btn btn-danger&quot; value=&quot;Delete Coffee&quot; action=&quot;#{editCoffeeBean.delete()}&quot;/&gt;
+                    &lt;h:commandButton class=&quot;btn btn-danger&quot; value=&quot;Delete Coffee&quot; action=&quot;#&#123;editCoffeeBean.delete()&#125;&quot;/&gt;
                 &lt;/div&gt;
             &lt;/h:form&gt;
         &lt;/ui:define&gt;
@@ -113,7 +114,7 @@
      * @author Candace
      */
     @Stateless
-    public class CoffeeService {
+    public class CoffeeService &#123;
         @PersistenceContext(unitName=&quot;InstantCoffeePU&quot;)
         private EntityManager em;
 
@@ -123,38 +124,38 @@
          * @param id Identifier for the Coffee object to load.
          * @return Coffee object associated with the ID.
          */
-        public Coffee load(Long id) {
+        public Coffee load(Long id) &#123;
             return em.find(Coffee.class, id);
-        }
+        &#125;
 
         /**
          * Add a new Coffee object to the database.
          * 
          * @param coffee The new Coffee object to be persisted.
          */
-        public void create(Coffee coffee) {
+        public void create(Coffee coffee) &#123;
             em.persist(coffee);
-        } 
+        &#125; 
 
         /**
          * Get all Coffee objects in the database.
          * 
          * @return A List containing all Coffee objects in the database.
          */
-        public List&lt;Coffee&gt; findAll() {
+        public List&lt;Coffee&gt; findAll() &#123;
             Query q = em.createNamedQuery(&quot;Coffee.FindAll&quot;);
             List&lt;Coffee&gt; coffees = (List&lt;Coffee&gt;) q.getResultList();
             return coffees;
-        }
+        &#125;
 
         /**
          * Update a Coffee object in the database.
          * 
          * @param coffee The Coffee object being updated.
          */
-        public void update(Coffee coffee) {
+        public void update(Coffee coffee) &#123;
             em.merge(coffee);
-        }
+        &#125;
 
         /**
          * Query the Coffee table based on a given search string.
@@ -162,21 +163,20 @@
          * @param searchString The search text to query by.
          * @return A List of Coffee objects matching the search.
          */
-        public List&lt;Coffee&gt; searchByAll(String searchString) {
+        public List&lt;Coffee&gt; searchByAll(String searchString) &#123;
             Query q = em.createNamedQuery(&quot;Coffee.findByAll&quot;);
             //Note: This MUST MATCH THE NAME GIVEN IN THE VIEW'S VIEWPARAM!!!
             q.setParameter(&quot;searchString&quot;,(&quot;%&quot;+searchString+&quot;%&quot;).toLowerCase());
             List&lt;Coffee&gt; coffees = (List&lt;Coffee&gt;) q.getResultList();
             return coffees;
-        }
+        &#125;
 
-        public void delete(Coffee coffee) {
+        public void delete(Coffee coffee) &#123;
             em.merge(coffee);
             em.remove(coffee);
 
-        }
-    }
-
+        &#125;
+    &#125;
     </ui:define>
     
     <ui:define name="bean">
@@ -195,7 +195,7 @@
      */
     @ManagedBean
     @RequestScoped
-    public class ListCoffeeBean {
+    public class ListCoffeeBean &#123;
         @EJB
         private CoffeeService coffeeService;
         private static final long serialVersionUID = 1L;
@@ -205,38 +205,38 @@
         /**
          * Empty constructor.
          */
-        public ListCoffeeBean() {
-        }
+        public ListCoffeeBean() &#123;
+        &#125;
 
         /**
          * Load all Coffee objects from database, or throw an error if they cannot 
          * be loaded.
          */
-        public void loadCoffeeList() {
-            try {
+        public void loadCoffeeList() &#123;
+            try &#123;
                 coffeeList = coffeeService.findAll();
-            } catch (Exception ex) {
+            &#125; catch (Exception ex) &#123;
                 System.out.print(&quot;Coffee List cannot be loaded.&quot;);
-            }
-        }
+            &#125;
+        &#125;
 
         /* Getters and Setters */
-        public CoffeeService getCoffeeService() {
+        public CoffeeService getCoffeeService() &#123;
             return coffeeService;
-        }
+        &#125;
 
-        public void setCoffeeService(CoffeeService coffeeService) {
+        public void setCoffeeService(CoffeeService coffeeService) &#123;
             this.coffeeService = coffeeService;
-        }
+        &#125;
 
-        public List&lt;Coffee&gt; getCoffeeList() {
+        public List&lt;Coffee&gt; getCoffeeList() &#123;
             return coffeeList;
-        }
+        &#125;
 
-        public void setCoffeeList(List&lt;Coffee&gt; coffeeList) {
+        public void setCoffeeList(List&lt;Coffee&gt; coffeeList) &#123;
             this.coffeeList = coffeeList;
-        }
-    }
+        &#125;
+    &#125;
 
     </ui:define>
 </ui:composition>

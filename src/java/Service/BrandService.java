@@ -12,6 +12,9 @@ import javax.persistence.Query;
 /**
  *
  * @author Candace
+ * 
+ * Handles connection to Brand table.
+ * 
  */
 @Stateless
 public class BrandService {

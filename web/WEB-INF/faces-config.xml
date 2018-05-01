@@ -7,6 +7,10 @@
 <application>  
   <!-- This supports resources referenced from within css files e.g. url(../fonts/glyphicons) -->
     <resource-handler>org.omnifaces.resourcehandler.UnmappedResourceHandler</resource-handler>
+    <resource-bundle>
+        <base-name>Bundles.WebMessages</base-name>
+        <var>bundle</var>
+    </resource-bundle>
 </application>
 
 </faces-config>

@@ -85,3 +85,12 @@ pre code {
 .nextnav a, .backnav a {
     padding: 0px 10px 0px 10px;
 }
+
+.btnDiv {
+    width: 100%;
+    text-align: center;
+}
+
+.formBtn {
+    margin: 20px 20px 0 0;
+}

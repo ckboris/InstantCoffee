@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./WEB-INF/templates/template.xhtml"
+<ui:composition template="./WEB-INF/templates/template.xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns="http://www.w3.org/1999/xhtml">
-                <f:metadata>
-                    <f:viewParam name="id" value="#{editCoffeeBean.id}"/>
-                    <f:viewAction action="#{editCoffeeBean.init()}"/>
-                </f:metadata>
-
+    <f:metadata>
+        <f:viewParam name="id" value="#{editCoffeeBean.id}"/>
+        <f:viewAction action="#{editCoffeeBean.init()}"/>
+    </f:metadata>
+    <!--Forward/backward navigation-->
     <ui:define name="back">
         <span class="glyphicon glyphicon-arrow-left"></span>
         <h:link value="Back" outcome="ViewCoffee"/>
@@ -20,18 +20,18 @@
     <ui:define name="content">
         <h1>Edit Coffee</h1>
         <h:form>
-            <div class="control-group error">
+            <div class="control-group error col-lg-12">
                 <h:outputLabel value="Variety "/>
                 <h:inputText id="itemName" class="form-control" value="#{editCoffeeBean.coffee.variety}"/>
                 <span class="error text-danger"> <h:message for="itemName" errorClass="error-message"/></span>
             </div>
-            <div class="control-group error">
+            <div class="control-group error col-lg-12">
                 <h:outputLabel value="Price "/>
                 <h:inputText id="itemPrice" class="form-control" value="#{editCoffeeBean.coffee.price}"/>
             </div>
-            <div class="control-group error">
+            <div class="control-group error col-lg-12">
                 <h:outputLabel value="Roast"/>
-                <div class="col-lg-10">
+                <div>
                     <h:selectOneMenu class="form-control"   
                             value="#{newCoffeeBean.coffee.roast}">
                         <f:selectItems value="#{newCoffeeBean.roasts}" var="roast"
@@ -40,12 +40,9 @@
                 </div>
             </div>
 
-            <div>
-                <h:commandButton class="btn" value="Save Changes" action="#{editCoffeeBean.submit()}"/>
-            </div>
-            
-            <div>
-                <h:commandButton class="btn btn-danger" value="Delete Coffee" action="#{editCoffeeBean.delete()}"/>
+            <div class="btnDiv">
+                <h:commandButton class="btn formBtn" value="Save Changes" action="#{editCoffeeBean.submit()}"/>
+                <h:commandButton class="btn btn-danger formBtn" value="Delete Coffee" action="#{editCoffeeBean.delete()}"/>
             </div>
         </h:form>
     </ui:define>
