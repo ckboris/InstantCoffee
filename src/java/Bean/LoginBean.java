@@ -25,13 +25,6 @@ public class LoginBean implements Serializable {
     private String password = null; 
     
     /**
-     * Empty constructor.
-     */
-    public LoginBean() {
-        
-    }
-    
-    /**
      * Log user in if they are in the appropriate role. Otherwise,
      * throw an error.
      * 

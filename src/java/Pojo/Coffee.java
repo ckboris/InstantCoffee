@@ -17,8 +17,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- *
  * @author Candace
+ * Coffee POJO.
  */
 @Entity
 @Table(name="COFFEE")

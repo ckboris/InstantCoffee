@@ -27,12 +27,6 @@ public class SearchBean {
     private CoffeeService coffeeService;
     private String searchQuery;
     private List<Coffee> results = new ArrayList<>();
-
-    /**
-     * Empty constructor.
-     */
-    public SearchBean() {
-    }
     
     /**
      * Init method.

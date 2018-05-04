@@ -50,13 +50,7 @@ public class NewCoffeeBean implements Serializable {
             LOG.log(Level.SEVERE, "Error initializing the Coffee object or Brand ID list", e);
         }
     }
-    
-    /**
-     * Empty constructor.
-     */
-    public NewCoffeeBean() {
-    }
-    
+ 
     /**
      * Submit a new Coffee object to the database.
      * 

@@ -59,4 +59,291 @@
             </div>
         </h:form>
     </ui:define>
+    
+    <ui:define name="xhtml">
+&lt;?xml version='1.0' encoding='UTF-8' ?&gt;
+&lt;!DOCTYPE composition PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;ui:composition template=&quot;./WEB-INF/templates/template.xhtml&quot;
+                xmlns:ui=&quot;http://xmlns.jcp.org/jsf/facelets&quot;
+                xmlns:f=&quot;http://xmlns.jcp.org/jsf/core&quot;
+                xmlns:h=&quot;http://xmlns.jcp.org/jsf/html&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+    &lt;f:metadata&gt;
+        &lt;f:viewAction action=&quot;#{newCoffeeBean.init()}&quot;/&gt;
+    &lt;/f:metadata&gt;
+
+    &lt;ui:define name=&quot;content&quot;&gt;
+        &lt;h1&gt;New Coffee&lt;/h1&gt;
+        &lt;h:form&gt;
+            &lt;div class=&quot;control-group error col-lg-12&quot;&gt;
+                &lt;h:outputLabel value=&quot;Name&quot;/&gt;
+                &lt;h:inputText id=&quot;itemName&quot; class=&quot;form-control&quot; value=&quot;#{newCoffeeBean.coffee.variety}&quot;&gt;&lt;/h:inputText&gt;
+                
+                &lt;span class=&quot;error text-danger&quot;&gt; &lt;h:message for=&quot;itemName&quot; errorClass=&quot;error-message&quot;/&gt;&lt;/span&gt;
+            &lt;/div&gt;
+            
+             &lt;div class=&quot;control-group error col-lg-12&quot;&gt;
+                &lt;h:outputLabel value=&quot;Price&quot;/&gt;
+                &lt;h:inputText id=&quot;itemPrice&quot; class=&quot;form-control &quot; value=&quot;#{newCoffeeBean.coffee.price}&quot; converterMessage=&quot;Must be a number&quot;&gt;&lt;/h:inputText&gt;
+                &lt;span class=&quot;error text-danger&quot;&gt; &lt;h:message for=&quot;itemPrice&quot; errorClass=&quot;error-message&quot;/&gt;&lt;/span&gt;
+             &lt;/div&gt;
+            
+            &lt;div class=&quot;control-group error col-lg-12&quot;&gt;
+                &lt;h:outputLabel value=&quot;Roast&quot;/&gt;
+                &lt;div&gt;
+                    &lt;h:selectOneMenu class=&quot;form-control&quot;   
+                            value=&quot;#{newCoffeeBean.coffee.roast}&quot;&gt;
+                        &lt;f:selectItems value=&quot;#{newCoffeeBean.roasts}&quot; var=&quot;roast&quot;
+                                       itemValue=&quot;#{roast}&quot; itemLabel=&quot;#{roast.label}&quot;/&gt;
+                    &lt;/h:selectOneMenu&gt;
+                &lt;/div&gt;
+            &lt;/div&gt; 
+
+            &lt;div class=&quot;control-group error col-lg-12&quot;&gt;
+                &lt;h:outputLabel value=&quot;Brand&quot;/&gt;
+                &lt;div&gt;
+                    &lt;h:selectOneMenu class=&quot;form-control&quot; 
+                                     value=&quot;#{newCoffeeBean.coffee.brand}&quot;
+                                     converter=&quot;omnifaces.SelectItemsConverter&quot;&gt;
+                        &lt;f:selectItems value=&quot;#{newCoffeeBean.brandList}&quot;/&gt;
+                    &lt;/h:selectOneMenu&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;btnDiv formBtn&quot;&gt;
+                &lt;h:commandButton class=&quot;btn&quot; value=&quot;Save&quot; 
+                                 action=&quot;#{newCoffeeBean.submit()}&quot;/&gt;
+            &lt;/div&gt;
+        &lt;/h:form&gt;
+    &lt;/ui:define&gt;
+&lt;/ui:composition&gt;
+    </ui:define>
+    
+    <ui:define name="service">
+package Service;
+
+import Pojo.Coffee;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ * Handles connection to Coffee table. 
+ */
+@Stateless
+public class CoffeeService {
+    @PersistenceContext(unitName=&quot;InstantCoffeePU&quot;)
+    private EntityManager em;
+    
+    /**
+     * Load a Coffee object given an ID.
+     * 
+     * @param id Identifier for the Coffee object to load.
+     * @return Coffee object associated with the ID.
+     */
+    public Coffee load(Long id) {
+        return em.find(Coffee.class, id);
+    }
+    
+    /**
+     * Add a new Coffee object to the database.
+     * 
+     * @param coffee The new Coffee object to be persisted.
+     */
+    public void create(Coffee coffee) {
+        em.persist(coffee);
+    } 
+    
+    /**
+     * Get all Coffee objects in the database.
+     * 
+     * @return A List containing all Coffee 
+     * objects in the database.
+     */
+    public List&lt;Coffee&gt; findAll() {
+        Query q = em.createNamedQuery(&quot;Coffee.FindAll&quot;);
+        List&lt;Coffee&gt; coffees = 
+            (List&lt;Coffee&gt;) q.getResultList();
+        return coffees;
+    }
+    
+    /**
+     * Update a Coffee object in the database.
+     * 
+     * @param coffee The Coffee object being updated.
+     */
+    public void update(Coffee coffee) {
+        em.merge(coffee);
+    }
+    
+    /**
+     * Query the Coffee table based on a search string.
+     * 
+     * @param searchString The search text to query by.
+     * @return A List of Coffee objects matching the search.
+     */
+    public List&lt;Coffee&gt; searchByAll(String searchString) {
+        Query q = em.createNamedQuery(&quot;Coffee.findByAll&quot;);
+        // Note: This must match the name given 
+        // in the view's viewparam.
+        q.setParameter(&quot;searchString&quot;,
+            (&quot;%&quot;+searchString+&quot;%&quot;).toLowerCase());
+        List&lt;Coffee&gt; coffees = 
+            (List&lt;Coffee&gt;) q.getResultList();
+        return coffees;
+    }
+    
+    /**
+     * Delete a Coffee object from the table.
+     * 
+     * @param coffee Coffee to delete.
+     */
+    public void delete(Coffee coffee) {
+        em.merge(coffee);
+        em.remove(coffee);
+        
+    }
+}
+    </ui:define>
+    
+    <ui:define name="bean">
+package Bean;
+
+import Pojo.Brand;
+import Pojo.Coffee;
+import Pojo.Roast;
+import Service.BrandService;
+import Service.CoffeeService;
+import java.io.Serializable;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ApplicationScoped;
+
+/**
+ * Handles creation of new Coffee object.
+ */
+
+@ManagedBean
+@ApplicationScoped
+public class NewCoffeeBean implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOG = 
+        Logger.getLogger(ViewCoffeeBean.class.getName());
+
+    @EJB
+    private CoffeeService coffeeService = new CoffeeService();
+    private Coffee coffee;
+    
+    @EJB
+    private BrandService brandService = new BrandService();
+    private Brand brand;
+    private List&lt;Long&gt; brandIdList;
+    private List&lt;Brand&gt; brandList;
+    
+    private Roast roast;
+    
+    /**
+     * Initialize values in NewCoffee view. 
+     */
+    @PostConstruct
+    public void init() {
+        try {
+            // Create a list of Brands for the selectOneMenu.
+            brandList = brandService.findAllBrands();
+            coffee = new Coffee();
+        } catch (Exception e) {
+            LOG.log(Level.SEVERE, &quot;Error initializing the 
+                Coffee object or Brand ID list&quot;, e);
+        }
+    }
+    
+    /**
+     * Submit a new Coffee object to the database.
+     * 
+     * @return Redirect string if Coffee object 
+     * persists correctly, otherwise throw 
+     * error message and return null.
+     */
+    public String submit() {
+        try {
+            /* Persist this Coffee's Brand using 
+               the ID associated with it */
+            coffee.setBrand(brandService.load
+                (coffee.getBrand().getId()));
+            coffeeService.create(coffee);
+            return &quot;/ListCoffee.xhtml?faces-redirect=true&quot;;
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, 
+                &quot;Error submitting Coffee&quot;, ex);
+            return null;
+        }
+    }
+
+    /**
+     * Get a list of the available Roasts.
+     * 
+     * @return An array of Roast objects.
+     */
+    public Roast[] getRoasts() {
+        return Roast.values();
+    }
+    
+    /* Getters and Setters */
+    public CoffeeService getCoffeeService() {
+        return coffeeService;
+    }
+
+    public void setCoffeeService(CoffeeService coffeeService) {
+        this.coffeeService = coffeeService;
+    }
+
+    public Coffee getCoffee() {
+        return coffee;
+    }
+
+    public void setCoffee(Coffee coffee) {
+        this.coffee = coffee;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public BrandService getBrandService() {
+        return brandService;
+    }
+
+    public void setBrandService(BrandService brandService) {
+        this.brandService = brandService;
+    }
+
+    public List&lt;Long&gt; getBrandIdList() {
+        return brandIdList;
+    }
+
+    public Roast getRoast() {
+        return roast;
+    }
+
+    public void setRoast(Roast roast) {
+        this.roast = roast;
+    }
+
+    public List&lt;Brand&gt; getBrandList() {
+        return brandList;
+    }
+
+    public void setBrandList(List&lt;Brand&gt; brandList) {
+        this.brandList = brandList;
+    }    
+}
+    </ui:define>
 </ui:composition>

@@ -54,15 +54,255 @@
     </ui:define>
 
     <ui:define name="xhtml">
-        XHTML
+&lt;?xml version='1.0' encoding='UTF-8' ?&gt;
+&lt;!DOCTYPE composition PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;ui:composition template=&quot;./WEB-INF/templates/template.xhtml&quot;
+                xmlns:ui=&quot;http://xmlns.jcp.org/jsf/facelets&quot;
+                xmlns:f=&quot;http://xmlns.jcp.org/jsf/core&quot;
+                xmlns:h=&quot;http://xmlns.jcp.org/jsf/html&quot; xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+    &lt;f:metadata&gt;
+        &lt;f:viewParam name='searchString' value='#{searchBean.searchQuery}'/&gt;
+    &lt;/f:metadata&gt;
+    
+    &lt;ui:define name=&quot;content&quot;&gt;
+        &lt;!--The search bar--&gt;
+        &lt;h1&gt;Search&lt;/h1&gt;
+        &lt;h:form&gt;
+        &lt;div class=&quot;input-group&quot;&gt;
+            &lt;h:inputText class=&quot;form-control&quot; value=&quot;#{searchBean.searchQuery}&quot;&gt;&lt;/h:inputText&gt;
+            &lt;span class=&quot;input-group-btn&quot;&gt;
+                &lt;h:commandButton class=&quot;btn btn-default&quot; value=&quot;Search&quot; action=&quot;#{searchBean.displaySearch()}&quot;/&gt;
+            &lt;/span&gt;
+        &lt;/div&gt;
+        &lt;/h:form&gt;
+        &lt;!--The results--&gt;
+        &lt;h:dataTable class=&quot;table&quot; 
+                     value=&quot;#{searchBean.results}&quot; 
+                     var=&quot;coffee&quot;
+                     rendered=&quot;#{not empty searchBean.results}&quot;&gt;
+            &lt;h:column&gt;
+                &lt;f:facet name=&quot;header&quot;&gt;Coffee Name&lt;/f:facet&gt;
+                #{coffee.variety}
+            &lt;/h:column&gt;
+            &lt;h:column&gt;
+                &lt;f:facet name=&quot;header&quot;&gt;View More&lt;/f:facet&gt;
+                &lt;h:button outcome=&quot;ViewCoffee?id=#{coffee.id}&quot; value=&quot;Go&quot;/&gt;
+            &lt;/h:column&gt;
+            
+            &lt;h:column&gt;
+                &lt;f:facet name=&quot;header&quot;&gt;Edit&lt;/f:facet&gt;
+                &lt;h:button outcome=&quot;EditCoffee?id=#{coffee.id}&quot; value=&quot;Go&quot;/&gt;
+            &lt;/h:column&gt;
+        &lt;/h:dataTable&gt;
+        
+        &lt;h:column rendered=&quot;#{empty searchBean.results and 
+                              searchBean.searchQuery ne null}&quot;&gt;
+            &lt;strong&gt;No Results&lt;/strong&gt;
+        &lt;/h:column&gt;
+    &lt;/ui:define&gt;
+&lt;/ui:composition&gt;
     </ui:define>
     
     <ui:define name="service">
-        Service
+package Service;
+
+import Pojo.Coffee;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ * Handles connection to Coffee table. 
+ */
+@Stateless
+public class CoffeeService {
+    @PersistenceContext(unitName=&quot;InstantCoffeePU&quot;)
+    private EntityManager em;
+    
+    /**
+     * Load a Coffee object given an ID.
+     * 
+     * @param id Identifier for the Coffee object to load.
+     * @return Coffee object associated with the ID.
+     */
+    public Coffee load(Long id) {
+        return em.find(Coffee.class, id);
+    }
+    
+    /**
+     * Add a new Coffee object to the database.
+     * 
+     * @param coffee The new Coffee object to be persisted.
+     */
+    public void create(Coffee coffee) {
+        em.persist(coffee);
+    } 
+    
+    /**
+     * Get all Coffee objects in the database.
+     * 
+     * @return A List containing all Coffee 
+     * objects in the database.
+     */
+    public List&lt;Coffee&gt; findAll() {
+        Query q = em.createNamedQuery(&quot;Coffee.FindAll&quot;);
+        List&lt;Coffee&gt; coffees = 
+            (List&lt;Coffee&gt;) q.getResultList();
+        return coffees;
+    }
+    
+    /**
+     * Update a Coffee object in the database.
+     * 
+     * @param coffee The Coffee object being updated.
+     */
+    public void update(Coffee coffee) {
+        em.merge(coffee);
+    }
+    
+    /**
+     * Query the Coffee table based on a search string.
+     * 
+     * @param searchString The search text to query by.
+     * @return A List of Coffee objects matching the search.
+     */
+    public List&lt;Coffee&gt; searchByAll(String searchString) {
+        Query q = em.createNamedQuery(&quot;Coffee.findByAll&quot;);
+        // Note: This must match the name given 
+        // in the view's viewparam.
+        q.setParameter(&quot;searchString&quot;,
+            (&quot;%&quot;+searchString+&quot;%&quot;).toLowerCase());
+        List&lt;Coffee&gt; coffees = 
+            (List&lt;Coffee&gt;) q.getResultList();
+        return coffees;
+    }
+    
+    /**
+     * Delete a Coffee object from the table.
+     * 
+     * @param coffee Coffee to delete.
+     */
+    public void delete(Coffee coffee) {
+        em.merge(coffee);
+        em.remove(coffee);
+        
+    }
+}
     </ui:define>
     
     <ui:define name="bean">
-        Bean
+package Bean;
+
+import Pojo.Coffee;
+import Service.CoffeeService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+
+/**
+ * Handles searching the database and presenting results.
+ */
+@ManagedBean
+@RequestScoped
+public class SearchBean {
+    private static final long serialVersionUID = 1L;
+    private static final Logger LOG = 
+        Logger.getLogger(ViewCoffeeBean.class.getName());
+    
+    @EJB
+    private CoffeeService coffeeService;
+    private String searchQuery;
+    private List&lt;Coffee&gt; results = new ArrayList&lt;&gt;();
+    
+    /**
+     * Init method.
+     */
+    @PostConstruct
+    public void init() {
+    } 
+
+    /**
+     * Display the results of a given search query.
+     */
+    public void displaySearch() {
+        results.clear();
+        for (String str : stringHandler(searchQuery)) {
+            searchCoffees(str);
+        }
+    }
+
+    /**
+     * Perform a search of the Coffee database table 
+     * based on the given search String(s), and add 
+     * the results to a List.
+     * 
+     * @param str The search string.
+     */
+    public void searchCoffees(String str) {
+        List&lt;Coffee&gt; coffees = 
+            coffeeService.searchByAll(str);
+        try {
+            for (Coffee i : coffees) {
+                results.add(i);
+            }
+        } catch (Exception e) {
+            LOG.log(Level.INFO, 
+                &quot;Error performing search&quot;, e);
+
+        }
+    }
+
+    /**
+     * Split apart a search query into individuals 
+     * strings, and handle empty search queries. 
+     * 
+     * @param str The search query entered in the 
+     * search bar.
+     * @return A List of Strings representing the 
+     * parts of the search.
+     */
+    public List&lt;String&gt; stringHandler(String str) {
+            List&lt;String&gt; searchTerms = new ArrayList&lt;&gt;();
+            try {
+                if (str != null &amp;&amp; !str.isEmpty()) {
+                    searchTerms.addAll(
+                        Arrays.asList(str.split(&quot; &quot;)));
+                }
+            } catch (Exception e) {
+                LOG.log(Level.INFO, &quot;Null search term&quot;, e);
+            }
+            return searchTerms;
+    }
+
+    /* Getters and Setters */
+    public CoffeeService getCoffeeService() {
+        return coffeeService;
+    }
+
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
+    }
+
+    public List&lt;Coffee&gt; getResults() {
+        return results;
+    }
+
+    public void setResults(List&lt;Coffee&gt; results) {
+        this.results = results;
+    }
+}
     </ui:define>
 
 </ui:composition>

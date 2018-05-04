@@ -25,12 +25,6 @@ public class ListCoffeeBean {
     private static final Logger LOG = Logger.getLogger(ViewCoffeeBean.class.getName());
     
     /**
-     * Empty constructor.
-     */
-    public ListCoffeeBean() {
-    }
-    
-    /**
      * Load all Coffee objects from database, or throw an error if they cannot 
      * be loaded.
      */
