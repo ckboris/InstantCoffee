@@ -20,14 +20,14 @@
         <h1>New Coffee</h1>
         <h:form>
             <div class="control-group error col-lg-12">
-                <h:outputLabel value="Name"/>
+                <h:outputLabel value="Variety Name"/>
                 <h:inputText id="itemName" class="form-control" value="#{newCoffeeBean.coffee.variety}"></h:inputText>
                 
                 <span class="error text-danger"> <h:message for="itemName" errorClass="error-message"/></span>
             </div>
             
              <div class="control-group error col-lg-12">
-                <h:outputLabel value="Price"/>
+                <h:outputLabel value="Price/lb"/>
                 <h:inputText id="itemPrice" class="form-control " value="#{newCoffeeBean.coffee.price}" converterMessage="Must be a number"></h:inputText>
                 <span class="error text-danger"> <h:message for="itemPrice" errorClass="error-message"/></span>
              </div>
@@ -44,7 +44,7 @@
             </div> 
 
             <div class="control-group error col-lg-12">
-                <h:outputLabel value="Brand"/>
+                <h:outputLabel value="Brand ID"/>
                 <div>
                     <h:selectOneMenu class="form-control" 
                                      value="#{newCoffeeBean.coffee.brand}"

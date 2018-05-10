@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.ejb.EJB;
-import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.RequestScoped;
 
 /**
  * @author Candace
@@ -20,7 +20,7 @@ import javax.faces.bean.ApplicationScoped;
  * Handles creation of new Coffee object.
  */
 @ManagedBean
-@ApplicationScoped
+@RequestScoped
 public class NewCoffeeBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(ViewCoffeeBean.class.getName());

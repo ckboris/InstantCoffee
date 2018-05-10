@@ -20,11 +20,11 @@
     <ui:define name="content">
         <h1>View Coffee</h1>
         <div>
-            <h:outputLabel value="Variety: "/>
+            <h:outputLabel value="Variety Name: "/>
             <h:outputText value=" #{viewCoffeeBean.coffee.variety}"/>
         </div>
         <div>
-            <h:outputLabel value="Price: "/>
+            <h:outputLabel value="Price/lb: "/>
             <h:outputText value=" $#{viewCoffeeBean.coffee.price}"/>
         </div>
         <div>
@@ -32,7 +32,7 @@
             <h:outputText value=" #{viewCoffeeBean.coffee.roast}"/>
         </div>
         <div>
-            <h:outputLabel value="Brand "/>
+            <h:outputLabel value="Brand: "/>
             <h:outputText value=" #{viewCoffeeBean.coffee.brand.name}"/>
         </div>
     </ui:define>

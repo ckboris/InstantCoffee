@@ -89,7 +89,7 @@ public class EditCoffeeBean implements Serializable {
             System.out.println("In try");
             brandService.delete(coffee.getBrand());
             //coffeeService.delete(coffee);
-            return "/ListCoffee.xhtml";
+            return "/ListCoffee.xhtml?faces-redirect=true";
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "Could not delete Coffee object, ", e);
             return "/";
